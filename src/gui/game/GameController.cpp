@@ -1117,7 +1117,7 @@ void GameController::OpenLocalSaveWindow(bool asCurrent)
 		}
 		else if (gameModel->GetSaveFile())
 		{
-			Client::Ref().MakeDirectory(LOCAL_SAVE_DIR);
+			Client::Ref().MakeDirectory((Client::Ref().GetPath() + PATH_SEP LOCAL_SAVE_DIR).c_str());
 			if (Client::Ref().WriteFile(gameSave->Serialise(), gameModel->GetSaveFile()->GetName()))
 				new ErrorMessage("Error", "Unable to write save file.");
 		}
@@ -1164,7 +1164,7 @@ void GameController::OpenLocalBrowse()
 			delete file;
 		}
 	};
-	new FileBrowserActivity(LOCAL_SAVE_DIR PATH_SEP, new LocalSaveOpenCallback(this));
+	new FileBrowserActivity(Client::Ref().GetPath() + PATH_SEP LOCAL_SAVE_DIR PATH_SEP, new LocalSaveOpenCallback(this));
 }
 
 void GameController::OpenLogin()
