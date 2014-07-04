@@ -40,6 +40,7 @@ def AddSconsOption(name, default, hasArgs, help):
 
 AddSconsOption('win', False, False, "Target Windows.")
 AddSconsOption('lin', False, False, "Target Linux.")
+AddSconsOption('js', False, False, "Target Javascript.")
 AddSconsOption('mac', False, False, "Target Mac OS X.")
 AddSconsOption('msvc', False, False, "Use the Microsoft Visual Studio compiler.")
 AddSconsOption("tool", False, True, "Tool prefix appended before gcc/g++.")
@@ -80,7 +81,7 @@ isX86 = platform.machine() in ["AMD64", "i386", "i686", "x86", "x86_64"]
 platform = compilePlatform = platform.system()
 if GetOption('win'):
 	platform = "Windows"
-elif GetOption('lin'):
+elif GetOption('lin') or GetOption("js"):
 	platform = "Linux"
 elif GetOption('mac'):
 	platform = "Darwin"
@@ -112,6 +113,12 @@ if not tool and compilePlatform == "Linux" and compilePlatform != platform:
 			break
 	if not tool:
 		print("Could not automatically find cross compiler, use --tool to specify manually")
+
+#javascript specific options
+if GetOption("js"):
+    env["CC"]="emcc"
+    env["CXX"]="emc++"
+    env.Append(CPPDEFINES="JS")
 
 #set tool prefix
 #more things may to be set (http://clam-project.org/clam/trunk/CLAM/scons/sconstools/crossmingw.py), but this works for us

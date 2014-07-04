@@ -572,22 +572,21 @@ void EventProcess(SDL_Event event)
 	}
 }
 
-void EngineProcess()
+int frameStart = SDL_GetTicks();
+float frameTime;
+float frameTimeAvg = 0.0f, correctedFrameTimeAvg = 0.0f;
+SDL_Event event;
+
+bool MainLoop()
 {
-	int frameStart = SDL_GetTicks();
-	float frameTime;
-	float frameTimeAvg = 0.0f, correctedFrameTimeAvg = 0.0f;
-	SDL_Event event;
-	while(engine->Running())
-	{
-		if(engine->Broken()) { engine->UnBreak(); break; }
+		if(engine->Broken()) { engine->UnBreak(); return true; }
 		event.type = 0;
 		while (SDL_PollEvent(&event))
 		{
 			EventProcess(event);
 			event.type = 0; //Clear last event
 		}
-		if(engine->Broken()) { engine->UnBreak(); break; }
+		if(engine->Broken()) { engine->UnBreak(); return true; }
 
 		engine->Tick();
 		engine->Draw();
@@ -629,9 +628,22 @@ void EngineProcess()
 			lastTick = frameStart;
 			Client::Ref().Tick();
 		}
+		return false;
+}
+
+void EngineProcess()
+{
+#ifndef JS
+    bool brk;
+	while(engine->Running())
+	{
+    brk=MainLoop();
+    if(brk)
+        break;
 	}
 #ifdef DEBUG
 	std::cout << "Breaking out of EngineProcess" << std::endl;
+#endif
 #endif
 }
 
@@ -781,7 +793,11 @@ void SigHandler(int signal)
 	}
 }
 
+#ifdef JS
+int init(int argc, char * argv[])
+#else
 int main(int argc, char * argv[])
+#endif
 {
 	currentWidth = WINDOWW; 
 	currentHeight = WINDOWH;
@@ -1008,5 +1024,4 @@ int main(int argc, char * argv[])
 	Client::Ref().Shutdown();
 	return 0;
 }
-
 #endif
