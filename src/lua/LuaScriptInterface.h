@@ -1,12 +1,7 @@
 #ifndef LUASCRIPTINTERFACE_H_
 #define LUASCRIPTINTERFACE_H_
 
-extern "C"
-{
-#include "lua.h"
-#include "lauxlib.h"
-#include "lualib.h"
-}
+#include "luainc.h"
 
 #include "CommandInterface.h"
 #include "simulation/Simulation.h"
@@ -136,6 +131,8 @@ class LuaScriptInterface: public CommandInterface
 	static int graphics_fillRect(lua_State * l);
 	static int graphics_drawCircle(lua_State * l);
 	static int graphics_fillCircle(lua_State * l);
+	static int graphics_getColors(lua_State * l);
+	static int graphics_getHexColor(lua_State * l);
 
 	void initFileSystemAPI();
 	static int fileSystem_list(lua_State * l);

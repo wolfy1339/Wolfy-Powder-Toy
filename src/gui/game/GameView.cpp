@@ -283,11 +283,11 @@ GameView::GameView():
 			v->c->Vote(1);
 		}
 	};
-	upVoteButton = new ui::Button(ui::Point(currentX, Size.Y-16), ui::Point(15, 15), "", "Like this save");
+	upVoteButton = new ui::Button(ui::Point(currentX, Size.Y-16), ui::Point(39, 15), "", "Like this save");
 	upVoteButton->SetIcon(IconVoteUp);
 	upVoteButton->Appearance.Margin.Top+=2;
 	upVoteButton->Appearance.Margin.Left+=2;
-	currentX+=14;
+	currentX+=38;
 	upVoteButton->SetActionCallback(new UpVoteAction(this));
 	AddComponent(upVoteButton);
 
@@ -616,6 +616,11 @@ bool GameView::GetDebugHUD()
 ui::Point GameView::GetMousePosition()
 {
 	return currentMouse;
+}
+
+bool GameView::GetPlacingSave()
+{
+	return selectMode != SelectNone;
 }
 
 void GameView::NotifyActiveToolsChanged(GameModel * sender)
@@ -2250,7 +2255,10 @@ void GameView::OnDraw()
 
 	if(toolTipPresence && toolTipPosition.X!=-1 && toolTipPosition.Y!=-1 && toolTip.length())
 	{
-		g->drawtext(toolTipPosition.X, toolTipPosition.Y, (char*)toolTip.c_str(), 255, 255, 255, toolTipPresence>51?255:toolTipPresence*5);
+		if (toolTipPosition.Y == Size.Y-MENUSIZE-10)
+			g->drawtext_outline(toolTipPosition.X, toolTipPosition.Y, (char*)toolTip.c_str(), 255, 255, 255, toolTipPresence>51?255:toolTipPresence*5);
+		else
+			g->drawtext(toolTipPosition.X, toolTipPosition.Y, (char*)toolTip.c_str(), 255, 255, 255, toolTipPresence>51?255:toolTipPresence*5);
 	}
 
 	if(buttonTipShow > 0)
