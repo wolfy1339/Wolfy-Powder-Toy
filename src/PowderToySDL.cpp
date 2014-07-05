@@ -637,7 +637,9 @@ bool MainLoop()
 			float targetFrameTime = 1000.0f/((float)ui::Engine::Ref().FpsLimit);
 			if(targetFrameTime - frameTimeAvg > 0)
 			{
+#ifndef JS
 				SDL_Delay((targetFrameTime - frameTimeAvg) + 0.5f);
+#endif
 				frameTime = SDL_GetTicks() - frameStart;//+= (int)(targetFrameTime - frameTimeAvg);
 			}
 		}
@@ -673,7 +675,10 @@ void EngineProcess()
 	std::cout << "Breaking out of EngineProcess" << std::endl;
 #endif
 #endif
-    emscripten_set_main_loop(MainLoop, 0, 0);
+
+#ifdef JS
+    emscripten_set_main_loop(MainLoop,60,1);
+#endif
 }
 
 int GetModifiers()
@@ -824,6 +829,7 @@ void SigHandler(int signal)
 
 int main(int argc, char * argv[])
 {
+    printf("INITIALISING\n");
 	currentWidth = WINDOWW; 
 	currentHeight = WINDOWH;
 
