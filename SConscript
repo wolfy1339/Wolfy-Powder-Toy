@@ -116,9 +116,21 @@ if not tool and compilePlatform == "Linux" and compilePlatform != platform:
 
 #javascript specific options
 if GetOption("js"):
-    env["CC"]="emcc"
-    env["CXX"]="emc++"
     env.Append(CPPDEFINES="JS")
+    # try and find the emscripten config
+    cfgpath=os.path.expanduser("~/.emscripten")
+    if not os.path.isfile(cfgpath):
+        print "unable to find emscripten config at",cfgpath
+        raise SystemExit(1)
+    opts={}
+    with open(cfgpath,"r") as fid:
+        exec fid in opts
+    
+    print "emscripten root path at",opts["EMSCRIPTEN_ROOT"]
+    env["CC"]=os.path.join(opts["EMSCRIPTEN_ROOT"],"emcc")
+    env["CXX"]=os.path.join(opts["EMSCRIPTEN_ROOT"],"em++")
+    env["LIBPATH"]=os.path.join(opts["EMSCRIPTEN_ROOT"],"system","lib")
+    env["CPPPATH"]=os.path.join(opts["EMSCRIPTEN_ROOT"],"system","includes")
 
 #set tool prefix
 #more things may to be set (http://clam-project.org/clam/trunk/CLAM/scons/sconstools/crossmingw.py), but this works for us
@@ -521,7 +533,18 @@ def strip():
 		os.system("{0} {1}/{2}".format(env['STRIP'] if 'STRIP' in env else "strip", GetOption('builddir'), programName))
 	except:
 		print("Couldn't strip binary")
-if not GetOption('debugging') and not GetOption('clean') and not GetOption('help') and not msvc:
+
+def emscripten():
+    bdir=GetOption('builddir')
+    os.rename(os.path.join(bdir,"powder"),os.path.join(bdir,"powder.bc"))
+    cmd=[env["CC"],os.path.join(bdir,"powder.bc"),"-o",os.path.join(bdir,"powder.html"),"-s","TOTAL_MEMORY=209715200"]
+    if GetOption("release"):
+        cmd.extend(["-O3","-s","DISABLE_EXCEPTION_CATCHING=0"])
+    subprocess.check_call(cmd)
+    
+if GetOption("js"):
+    atexit.register(emscripten)
+elif not GetOption('debugging') and not GetOption('clean') and not GetOption('help') and not msvc:
 	atexit.register(strip)
 
 #Long command line fix for mingw on windows

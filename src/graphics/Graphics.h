@@ -44,8 +44,15 @@
 #define PIXG(x) (((x)>>8)&0xFF)
 #define PIXB(x) ((x)&0xFF)
 #else
+
 #define PIXPACK(x) (x)																		//24bit RGB in 32bit int: 00RRGGBB.
+
+#ifdef JS
+#define PIXRGB(r,g,b) (((b)<<16)|((g)<<8)|(r))
+#else
 #define PIXRGB(r,g,b) (((r)<<16)|((g)<<8)|(b))
+#endif
+
 #define PIXR(x) (((x)>>16)&0xFF)
 #define PIXG(x) (((x)>>8)&0xFF)
 #define PIXB(x) ((x)&0xFF)
