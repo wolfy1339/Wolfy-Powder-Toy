@@ -22,6 +22,10 @@
 #endif
 #include <signal.h>
 
+#ifdef JS
+#include "emscripten/emscripten.h"
+#endif
+
 #ifndef WIN
 #include <unistd.h>
 #endif
@@ -577,16 +581,36 @@ float frameTime;
 float frameTimeAvg = 0.0f, correctedFrameTimeAvg = 0.0f;
 SDL_Event event;
 
+#ifdef JS
+void MainLoop()
+#else
 bool MainLoop()
+#endif
 {
-		if(engine->Broken()) { engine->UnBreak(); return true; }
+		if(engine->Broken())
+		{
+		    engine->UnBreak();
+#ifdef JS
+		    return;
+#else
+		    return true;
+#endif
+        }
 		event.type = 0;
 		while (SDL_PollEvent(&event))
 		{
 			EventProcess(event);
 			event.type = 0; //Clear last event
 		}
-		if(engine->Broken()) { engine->UnBreak(); return true; }
+		if(engine->Broken())
+		{
+		    engine->UnBreak();
+#ifdef JS
+		    return;
+#else
+		    return true;
+#endif
+        }
 
 		engine->Tick();
 		engine->Draw();
@@ -628,7 +652,11 @@ bool MainLoop()
 			lastTick = frameStart;
 			Client::Ref().Tick();
 		}
+#ifdef JS
+        return;
+#else
 		return false;
+#endif
 }
 
 void EngineProcess()
@@ -645,6 +673,7 @@ void EngineProcess()
 	std::cout << "Breaking out of EngineProcess" << std::endl;
 #endif
 #endif
+    emscripten_set_main_loop(MainLoop, 0, 0);
 }
 
 int GetModifiers()
@@ -793,11 +822,7 @@ void SigHandler(int signal)
 	}
 }
 
-#ifdef JS
-int init(int argc, char * argv[])
-#else
 int main(int argc, char * argv[])
-#endif
 {
 	currentWidth = WINDOWW; 
 	currentHeight = WINDOWH;
