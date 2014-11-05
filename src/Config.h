@@ -12,7 +12,7 @@
 
 //VersionInfoStart
 #ifndef SAVE_VERSION
-#define SAVE_VERSION 89
+#define SAVE_VERSION 90
 #endif
 
 #ifndef MINOR_VERSION
@@ -20,7 +20,7 @@
 #endif
 
 #ifndef BUILD_NUM
-#define BUILD_NUM 283
+#define BUILD_NUM 322
 #endif
 
 #ifndef SNAPSHOT_ID
@@ -43,18 +43,14 @@
 #if defined(WIN)
 #if defined(_64BIT)
 #define IDENT_PLATFORM "WIN64"
-#elif defined(_32BIT)
-#define IDENT_PLATFORM "WIN32"
 #else
-#define IDENT_PLATFORM "WIN"
+#define IDENT_PLATFORM "WIN32"
 #endif
 #elif defined(LIN)
 #if defined(_64BIT)
 #define IDENT_PLATFORM "LIN64"
-#elif defined(_32BIT)
-#define IDENT_PLATFORM "LIN32"
 #else
-#define IDENT_PLATFORM "LIN"
+#define IDENT_PLATFORM "LIN32"
 #endif
 #elif defined(MACOSX)
 #define IDENT_PLATFORM "MACOSX"
@@ -175,6 +171,12 @@
 #define TPT_INLINE
 #else
 #define TPT_INLINE inline
+#endif
+
+#if defined(WIN) && defined(__GNUC__)
+#define TH_ENTRY_POINT __attribute__((force_align_arg_pointer)) 
+#else
+#define TH_ENTRY_POINT
 #endif
 
 #define SDEUT

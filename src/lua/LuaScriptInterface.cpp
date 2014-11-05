@@ -73,6 +73,18 @@ int atPanic(lua_State *l)
 	throw std::runtime_error("Unprotected lua panic: " + std::string(lua_tostring(l, -1)));
 }
 
+int TptIndexClosure(lua_State *l)
+{
+	LuaScriptInterface *lsi = (LuaScriptInterface *)lua_touserdata(l, lua_upvalueindex(1));
+	return lsi->tpt_index(l);
+}
+
+int TptNewindexClosure(lua_State *l)
+{
+	LuaScriptInterface *lsi = (LuaScriptInterface *)lua_touserdata(l, lua_upvalueindex(1));
+	return lsi->tpt_newIndex(l);
+}
+
 LuaScriptInterface::LuaScriptInterface(GameController * c, GameModel * m):
 	CommandInterface(c, m),
 	currentCommand(false),
@@ -127,7 +139,7 @@ LuaScriptInterface::LuaScriptInterface(GameController * c, GameModel * m):
 	int i = 0, j;
 	char tmpname[12];
 	int currentElementMeta, currentElement;
-	const static struct luaL_reg tptluaapi [] = {
+	const static struct luaL_Reg tptluaapi [] = {
 		{"test", &luatpt_test},
 		{"drawtext", &luatpt_drawtext},
 		{"create", &luatpt_create},
@@ -214,14 +226,6 @@ LuaScriptInterface::LuaScriptInterface(GameController * c, GameModel * m):
 	lua_setfield(l, tptProperties, "mousex");
 	lua_pushinteger(l, 0);
 	lua_setfield(l, tptProperties, "mousey");
-	lua_pushstring(l, "DEFAULT_PT_DUST");
-	lua_setfield(l, tptProperties, "selectedl");
-	lua_pushstring(l, "DEFAULT_PT_NONE");
-	lua_setfield(l, tptProperties, "selectedr");
-	lua_pushstring(l, "DEFAULT_PT_NONE");
-	lua_setfield(l, tptProperties, "selecteda");
-	lua_pushstring(l, "DEFAULT_PT_NONE");
-	lua_setfield(l, tptProperties, "selectedreplace");
 
 	lua_newtable(l);
 	tptPropertiesVersion = lua_gettop(l);
@@ -332,6 +336,16 @@ tpt.partsdata = nil");
 		lua_gr_func[i] = 0;
 	}
 
+	//make tpt.* a metatable
+	lua_newtable(l);
+	lua_pushlightuserdata(l, this);
+	lua_pushcclosure(l, TptIndexClosure, 1);
+	lua_setfield(l, -2, "__index");
+	lua_pushlightuserdata(l, this);
+	lua_pushcclosure(l, TptNewindexClosure, 1);
+	lua_setfield(l, -2, "__newindex");
+	lua_setmetatable(l, -2);
+
 }
 
 void LuaScriptInterface::Init()
@@ -351,11 +365,84 @@ void LuaScriptInterface::SetWindow(ui::Window * window)
 	Window = window;
 }
 
+int LuaScriptInterface::tpt_index(lua_State *l)
+{
+	std::string key = luaL_checkstring(l, 2);
+	if (!key.compare("selectedl"))
+		return lua_pushstring(l, luacon_selectedl.c_str()), 1;
+	if (!key.compare("selectedr"))
+		return lua_pushstring(l, luacon_selectedr.c_str()), 1;
+	if (!key.compare("selecteda"))
+		return lua_pushstring(l, luacon_selectedalt.c_str()), 1;
+	if (!key.compare("selectedreplace"))
+		return lua_pushstring(l, luacon_selectedreplace.c_str()), 1;
+	if (!key.compare("brushx"))
+		return lua_pushnumber(l, luacon_brushx), 1;
+	if (!key.compare("brushy"))
+		return lua_pushnumber(l, luacon_brushy), 1;
+	if (!key.compare("brushID"))
+		return lua_pushnumber(l, m->GetBrushID()), 1;
+
+	//if not a special key, return the value in the table
+	return lua_rawget(l, 1), 1;
+}
+
+int LuaScriptInterface::tpt_newIndex(lua_State *l)
+{
+	std::string key = luaL_checkstring(l, 2);
+	if (!key.compare("selectedl"))
+	{
+		Tool *t = m->GetToolFromIdentifier(luaL_checkstring(l, 3));
+		if (t)
+			c->SetActiveTool(0, t);
+		else
+			luaL_error(l, "Invalid tool identifier: %s", lua_tostring(l, 3));
+	}
+	else if (!key.compare("selectedr"))
+	{
+		Tool *t = m->GetToolFromIdentifier(luaL_checkstring(l, 3));
+		if (t)
+			c->SetActiveTool(1, t);
+		else
+			luaL_error(l, "Invalid tool identifier: %s", lua_tostring(l, 3));
+	}
+	else if (!key.compare("selecteda"))
+	{
+		Tool *t = m->GetToolFromIdentifier(luaL_checkstring(l, 3));
+		if (t)
+			c->SetActiveTool(2, t);
+		else
+			luaL_error(l, "Invalid tool identifier: %s", lua_tostring(l, 3));
+	}
+	else if (!key.compare("selectedreplace"))
+	{
+		Tool *t = m->GetToolFromIdentifier(luaL_checkstring(l, 3));
+		if( t)
+			c->SetActiveTool(3, t);
+		else
+			luaL_error(l, "Invalid tool identifier: %s", lua_tostring(l, 3));
+	}
+	else if (!key.compare("brushx"))
+		c->SetBrushSize(ui::Point(luaL_checkinteger(l, 3), luacon_brushy));
+	else if (!key.compare("brushy"))
+		c->SetBrushSize(ui::Point(luacon_brushx, luaL_checkinteger(l, 3)));
+	else if (!key.compare("brushID"))
+	{
+		m->SetBrushID(luaL_checkinteger(l, 3));
+		c->BrushChanged(m->GetBrushID(), luacon_brushx, luacon_brushy);
+	}
+	else
+	{
+		//if not a special key, set a value in the table
+		return lua_rawset(l, 1), 1;
+	}
+}
+
 //// Begin Interface API
 
 void LuaScriptInterface::initInterfaceAPI()
 {
-	struct luaL_reg interfaceAPIMethods [] = {
+	struct luaL_Reg interfaceAPIMethods [] = {
 		{"showWindow", interface_showWindow},
 		{"closeWindow", interface_closeWindow},
 		{"addComponent", interface_addComponent},
@@ -448,7 +535,7 @@ int LuaScriptInterface::particlePropertiesCount;
 void LuaScriptInterface::initSimulationAPI()
 {
 	//Methods
-	struct luaL_reg simulationAPIMethods [] = {
+	struct luaL_Reg simulationAPIMethods [] = {
 		{"partNeighbours", simulation_partNeighbours},
 		{"partNeighbors", simulation_partNeighbours},
 		{"partChangeType", simulation_partChangeType},
@@ -1678,7 +1765,7 @@ int LuaScriptInterface::simulation_neighbours(lua_State * l)
 void LuaScriptInterface::initRendererAPI()
 {
 	//Methods
-	struct luaL_reg rendererAPIMethods [] = {
+	struct luaL_Reg rendererAPIMethods [] = {
 		{"renderModes", renderer_renderModes},
 		{"displayModes", renderer_displayModes},
 		{"colourMode", renderer_colourMode},
@@ -1870,7 +1957,7 @@ int LuaScriptInterface::renderer_debugHUD(lua_State * l)
 void LuaScriptInterface::initElementsAPI()
 {
 	//Methods
-	struct luaL_reg elementsAPIMethods [] = {
+	struct luaL_Reg elementsAPIMethods [] = {
 		{"allocate", elements_allocate},
 		{"element", elements_element},
 		{"property", elements_property},
@@ -1910,6 +1997,7 @@ void LuaScriptInterface::initElementsAPI()
 	SETCONST(l, FLAG_STAGNANT);
 	SETCONST(l, FLAG_SKIPMOVE);
 	SETCONST(l, FLAG_MOVABLE);
+	SETCONST(l, FLAG_PHOTDECO);
 	SETCONST(l, ST_NONE);
 	SETCONST(l, ST_SOLID);
 	SETCONST(l, ST_LIQUID);
@@ -2386,7 +2474,7 @@ int LuaScriptInterface::elements_free(lua_State * l)
 void LuaScriptInterface::initGraphicsAPI()
 {
 	//Methods
-	struct luaL_reg graphicsAPIMethods [] = {
+	struct luaL_Reg graphicsAPIMethods [] = {
 		{"textSize", graphics_textSize},
 		{"drawText", graphics_drawText},
 		{"drawLine", graphics_drawLine},
@@ -2595,7 +2683,7 @@ int LuaScriptInterface::graphics_getHexColor(lua_State * l)
 void LuaScriptInterface::initFileSystemAPI()
 {
 	//Methods
-	struct luaL_reg fileSystemAPIMethods [] = {
+	struct luaL_Reg fileSystemAPIMethods [] = {
 		{"list", fileSystem_list},
 		{"exists", fileSystem_exists},
 		{"isFile", fileSystem_isFile},
@@ -2905,7 +2993,7 @@ void LuaScriptInterface::OnTick()
 	ui::Engine::Ref().LastTick(gettime());
 	if(luacon_mousedown)
 		luacon_mouseevent(luacon_mousex, luacon_mousey, luacon_mousebutton, LUACON_MPRESS, 0);
-	luacon_step(luacon_mousex, luacon_mousey, luacon_selectedl, luacon_selectedr, luacon_selectedalt, luacon_selectedreplace, luacon_brushx, luacon_brushy);
+	luacon_step(luacon_mousex, luacon_mousey);
 }
 
 int LuaScriptInterface::Command(std::string command)

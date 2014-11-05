@@ -1,8 +1,8 @@
 #include "simulation/Elements.h"
-//#TPT-Directive ElementClass Element_REPL PT_REPL 160
-Element_REPL::Element_REPL()
+//#TPT-Directive ElementClass Element_RPEL PT_RPEL 160
+Element_RPEL::Element_RPEL()
 {
-	Identifier = "DEFAULT_PT_REPL";
+	Identifier = "DEFAULT_PT_RPEL";
 	Name = "RPEL";
 	Colour = PIXPACK(0x99CC00);
 	MenuVisible = 1;
@@ -42,19 +42,19 @@ Element_REPL::Element_REPL()
 	HighTemperature = ITH;
 	HighTemperatureTransition = NT;
 	
-	Update = &Element_REPL::update;
+	Update = &Element_RPEL::update;
 	
 }
 
-//#TPT-Directive ElementHeader Element_REPL static int update(UPDATE_FUNC_ARGS)
-int Element_REPL::update(UPDATE_FUNC_ARGS)
+//#TPT-Directive ElementHeader Element_RPEL static int update(UPDATE_FUNC_ARGS)
+int Element_RPEL::update(UPDATE_FUNC_ARGS)
  {
 	int r, rx, ry, ri;
 	for(ri = 0; ri <= 10; ri++)
 	{
 		rx = (rand()%21)-10;
 		ry = (rand()%21)-10;
-		if (BOUNDS_CHECK && (rx || ry))
+		if (x+rx >= 0 && x+rx < XRES && y+ry >= 0 && y+ry < YRES && (rx || ry))
 		{
 			r = pmap[y+ry][x+rx];
 			if (!r)
@@ -70,4 +70,4 @@ int Element_REPL::update(UPDATE_FUNC_ARGS)
 }
 
 
-Element_REPL::~Element_REPL() {}
+Element_RPEL::~Element_RPEL() {}

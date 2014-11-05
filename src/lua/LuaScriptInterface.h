@@ -1,7 +1,7 @@
 #ifndef LUASCRIPTINTERFACE_H_
 #define LUASCRIPTINTERFACE_H_
 
-#include "luainc.h"
+#include "LuaCompat.h"
 
 #include "CommandInterface.h"
 #include "simulation/Simulation.h"
@@ -146,6 +146,9 @@ class LuaScriptInterface: public CommandInterface
 	static int fileSystem_copy(lua_State * l);
 
 public:
+	int tpt_index(lua_State *l);
+	int tpt_newIndex(lua_State *l);
+
 	ui::Window * Window;
 	lua_State *l;
 	LuaScriptInterface(GameController * c, GameModel * m);

@@ -175,6 +175,7 @@ GameView::GameView():
 	isToolTipFadingIn(false),
 	isButtonTipFadingIn(false),
 	toolTipPosition(-1, -1),
+	saveSimulationButtonEnabled(false),
 	shiftBehaviour(false),
 	ctrlBehaviour(false),
 	altBehaviour(false),
@@ -319,7 +320,7 @@ GameView::GameView():
 			v->c->OpenTags();
 		}
 	};
-	tagSimulationButton = new ui::Button(ui::Point(currentX, Size.Y-16), ui::Point(251, 15), "[no tags set]", "Add simulation tags");
+	tagSimulationButton = new ui::Button(ui::Point(currentX, Size.Y-16), ui::Point(227, 15), "[no tags set]", "Add simulation tags");
 	tagSimulationButton->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	tagSimulationButton->SetIcon(IconTag);
 	currentX+=252;
@@ -621,6 +622,11 @@ ui::Point GameView::GetMousePosition()
 bool GameView::GetPlacingSave()
 {
 	return selectMode != SelectNone;
+}
+
+bool GameView::GetPlacingZoom()
+{
+	return zoomEnabled && !zoomCursorFixed;
 }
 
 void GameView::NotifyActiveToolsChanged(GameModel * sender)
