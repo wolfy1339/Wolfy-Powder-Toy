@@ -281,7 +281,7 @@ def findLibs(env, conf):
 			#Look for lua.h
 			foundheader = False
 			if GetOption('luajit'):
-				foundheader = conf.CheckCHeader('luajit-2.0/lua.h')
+				foundheader = conf.CheckCHeader('luajit-2.0/luajit.h')
 			elif GetOption('lua52'):
 				foundheader = conf.CheckCHeader('lua5.2/lua.h')
 			else:
