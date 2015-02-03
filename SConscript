@@ -255,7 +255,7 @@ def findLibs(env, conf):
 		#Look for Lua
 		luaver = "lua5.1"
 		if GetOption('luajit'):
-			if not conf.CheckLib(['luajit-5.1', 'luajit5.1', 'luajit']):
+			if not conf.CheckLib(['libluajit','luajit-5.1', 'luajit5.1', 'luajit']):
 				FatalError("luajit development library not found or not installed")
 			env.Append(CPPDEFINES=["LUAJIT"])
 			luaver = "luajit"
@@ -280,7 +280,7 @@ def findLibs(env, conf):
 			#Look for lua.h
 			foundheader = False
 			if GetOption('luajit'):
-				foundheader = conf.CheckCHeader('luajit-2.0/lua.h')
+				foundheader = conf.CheckCHeader('luajit-2.0/luajit.h')
 			elif GetOption('lua52'):
 				foundheader = conf.CheckCHeader('lua5.2/lua.h')
 			else:
