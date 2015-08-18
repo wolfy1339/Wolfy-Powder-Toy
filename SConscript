@@ -390,9 +390,9 @@ elif not GetOption('help'):
 
 if not msvc:
 	if platform == "Windows":
-		env.Append(CXXFLAGS=['-std=gnu++98'])
+		env.Append(CXXFLAGS=['-std=gnu++11'])
 	else:
-		env.Append(CXXFLAGS=['-std=c++98'])
+		env.Append(CXXFLAGS=['-std=c++11'])
 	env.Append(CXXFLAGS=['-Wno-invalid-offsetof'])
 	if platform == "Linux":
 		env.Append(CXXFLAGS=['-Wno-unused-result'])
