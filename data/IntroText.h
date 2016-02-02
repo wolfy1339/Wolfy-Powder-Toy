@@ -1,5 +1,5 @@
 static const char *introTextData =
-	"\blThe Powder Toy - Version " MTOS(SAVE_VERSION) "." MTOS(MINOR_VERSION) " - http://powdertoy.co.uk, irc.freenode.net #powder\n"
+	"\blPowder Sim 2 - Version " MTOS(SAVE_VERSION) "." MTOS(MINOR_VERSION) " - http://powdertoy.co.uk, irc.freenode.net #powdersim2\n"
 	"\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\n"
 	"\n"
 	"\bgControl+C/V/X are Copy, Paste and cut respectively.\n"
@@ -12,26 +12,21 @@ static const char *introTextData =
 	"Use the mouse scroll wheel, or '[' and ']', to change the tool size for particles.\n"
 	"Middle click or Alt+Click to \"sample\" the particles.\n"
 	"Ctrl+Z will act as Undo.\n"
-	"\n\boUse 'Z' for a zoom tool. Click to make the drawable zoom window stay around. Use the wheel to change the zoom strength.\n"
-	"The spacebar can be used to pause physics. Use 'F' to step ahead by one frame.\n"
-	"Use 'S' to save parts of the window as 'stamps'. 'L' loads the most recent stamp, 'K' shows a library of stamps you saved.\n"
-	"Use 'P' to take a screenshot and save it into the current directory.\n"
-	"Use 'H' to toggle the HUD. Use 'D' to toggle debug mode in the HUD.\n"
+	"\n\boUse 'Z' for a zoom tool. Click to make the drawable zoom window stay around. Use the wheel to change the zoom strength\n"
+	"The spacebar can be used to pause physics.\n"
+	"Use 'S' to save parts of the window as 'stamps'.\n"
+	"'L' will load the most recent stamp, 'K' shows a library of stamps you saved.\n"
+	"'P' will take a screenshot and save it into the current directory.\n"
 	"\n"
-	"Contributors: \bgStanislaw K Skowronek (Designed the original Powder Toy),\n"
-	"\bgSimon Robertshaw, Skresanov Savely, cracker64, Catelite, Bryan Hoyle, Nathan Cousins, jacksonmj,\n"
-	"\bgFelix Wallin, Lieuwe Mosch, Anthony Boot, Matthew \"me4502\", MaksProg, jacob1, mniip\n"
+	"Contributors: \bgwolfy1339 (Leader), firefreak11(Lead Programmer), cyberdragon (Github staff), tommig, kikinicij,\n" 
+	"\bggreymatter, Xetalim, GreenFireDragon\n"
+	"\boTPT: \bgStanislaw K Skowronek (Designed the original Powder Toy), Simon Robertshaw, Skresanov Savely, cracker64,\n"
+	"\bgCatelite, Bryan Hoyle, Nathan Cousins, jacksonmj, Felix Wallin, Lieuwe Mosch, Anthony Boot, Matthew \me4502\,\n" 
+	"\bgMaksProg, jacob1, mniip\n"
+	"\bgYou can not use online features like publishing saves\n"
 	"\n"
-#ifndef BETA
-	"\bgTo use online features such as saving, you need to register at: \brhttp://powdertoy.co.uk/Register.html\n"
-#else
-	"\brThis is a BETA, you cannot save things publicly. If you are planning on publishing any saves, use the release version\n"
-#endif
-	"\n"
+	
 	"\bt" MTOS(SAVE_VERSION) "." MTOS(MINOR_VERSION) "." MTOS(BUILD_NUM) " " IDENT_PLATFORM " "
-#ifdef SNAPSHOT
-	"SNAPSHOT " MTOS(SNAPSHOT_ID) " "
-#endif
 #ifdef X86
 	"X86 "
 #endif
