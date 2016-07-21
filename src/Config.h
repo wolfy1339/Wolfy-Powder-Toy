@@ -67,11 +67,11 @@
 #define IDENT_PLATFORM "UNKNOWN"
 #endif
 
-#if defined(X86_SSE3)
+#if defined(X86_SSE3) || defined(X64_SSE3)
 #define IDENT_BUILD "SSE3"
-#elif defined(X86_SSE2)
+#elif defined(X86_SSE2) || defined(X64_SSE2)
 #define IDENT_BUILD "SSE2"
-#elif defined(X86_SSE)
+#elif defined(X86_SSE) || defined(X64_SSE)
 #define IDENT_BUILD "SSE"
 #else
 #define IDENT_BUILD "NO"
