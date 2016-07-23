@@ -17,7 +17,7 @@ SaveRenderer::SaveRenderer(){
 	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &fboTex);
 	glBindTexture(GL_TEXTURE_2D, fboTex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, XRES, YRES, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, XRES, YRES, 0, GL_RGBA, GL_FLOAT, nullptr);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 
@@ -35,7 +35,7 @@ SaveRenderer::SaveRenderer(){
 VideoBuffer * SaveRenderer::Render(GameSave * save, bool decorations, bool fire)
 {
 	int width, height;
-	VideoBuffer * tempThumb = NULL;
+	VideoBuffer * tempThumb = nullptr;
 	width = save->blockWidth;
 	height = save->blockHeight;
 	bool doCollapse = save->Collapsed();
@@ -49,8 +49,8 @@ VideoBuffer * SaveRenderer::Render(GameSave * save, bool decorations, bool fire)
 		ren->decorations_enable = true;
 		ren->blackDecorations = !decorations;
 #if defined(OGLR) || defined(OGLI)
-		pixel * pData = NULL;
-		unsigned char * texData = NULL;
+		pixel * pData = nullptr;
+		unsigned char * texData = nullptr;
 
 		glTranslated(0, MENUSIZE, 0);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fbo);
@@ -107,9 +107,9 @@ VideoBuffer * SaveRenderer::Render(GameSave * save, bool decorations, bool fire)
 		tempThumb = new VideoBuffer(pData, width*CELL, height*CELL);
 		delete[] pData;
 		delete[] texData;
-		pData = NULL;
+		pData = nullptr;
 #else
-		pixel * pData = NULL;
+		pixel * pData = nullptr;
 		pixel * dst;
 		pixel * src = g->vid;
 

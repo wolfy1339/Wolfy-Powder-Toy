@@ -41,7 +41,7 @@ Element_PSCN::Element_PSCN()
 	HighTemperature = 1687.0f;
 	HighTemperatureTransition = PT_LAVA;
 
-	Update = NULL;
+	Update = nullptr;
 }
 
 Element_PSCN::~Element_PSCN() {}

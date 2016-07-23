@@ -234,8 +234,8 @@ void Renderer::loadShaders()
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
-	glShaderSource( vertexShader, 1, &fireVertex, NULL);
-	glShaderSource( fragmentShader, 1, &fireFragment, NULL);
+	glShaderSource( vertexShader, 1, &fireVertex, nullptr);
+	glShaderSource( fragmentShader, 1, &fireFragment, nullptr);
 
 	glCompileShader( vertexShader );
 	checkShader(vertexShader, "FV");
@@ -252,8 +252,8 @@ void Renderer::loadShaders()
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
-	glShaderSource( vertexShader, 1, &lensVertex, NULL);
-	glShaderSource( fragmentShader, 1, &lensFragment, NULL);
+	glShaderSource( vertexShader, 1, &lensVertex, nullptr);
+	glShaderSource( fragmentShader, 1, &lensFragment, nullptr);
 
 	glCompileShader( vertexShader );
 	checkShader(vertexShader, "LV");
@@ -270,8 +270,8 @@ void Renderer::loadShaders()
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
-	glShaderSource( vertexShader, 1, &airVVertex, NULL);
-	glShaderSource( fragmentShader, 1, &airVFragment, NULL);
+	glShaderSource( vertexShader, 1, &airVVertex, nullptr);
+	glShaderSource( fragmentShader, 1, &airVFragment, nullptr);
 
 	glCompileShader( vertexShader );
 	checkShader(vertexShader, "AVX");
@@ -288,8 +288,8 @@ void Renderer::loadShaders()
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
-	glShaderSource( vertexShader, 1, &airPVertex, NULL);
-	glShaderSource( fragmentShader, 1, &airPFragment, NULL);
+	glShaderSource( vertexShader, 1, &airPVertex, nullptr);
+	glShaderSource( fragmentShader, 1, &airPFragment, nullptr);
 
 	glCompileShader( vertexShader );
 	checkShader(vertexShader, "APV");
@@ -306,8 +306,8 @@ void Renderer::loadShaders()
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
-	glShaderSource( vertexShader, 1, &airCVertex, NULL);
-	glShaderSource( fragmentShader, 1, &airCFragment, NULL);
+	glShaderSource( vertexShader, 1, &airCVertex, nullptr);
+	glShaderSource( fragmentShader, 1, &airCFragment, nullptr);
 
 	glCompileShader( vertexShader );
 	checkShader(vertexShader, "ACV");
@@ -2535,8 +2535,8 @@ pixel Renderer::GetPixel(int x, int y)
 }
 
 Renderer::Renderer(Graphics * g, Simulation * sim):
-	sim(NULL),
-	g(NULL),
+	sim(nullptr),
+	g(nullptr),
 	render_mode(0),
 	colour_mode(0),
 	display_mode(0),
@@ -2657,7 +2657,7 @@ Renderer::Renderer(Graphics * g, Simulation * sim):
 	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &partsFboTex);
 	glBindTexture(GL_TEXTURE_2D, partsFboTex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, XRES, YRES, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, XRES, YRES, 0, GL_RGBA, GL_FLOAT, nullptr);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 
@@ -2674,7 +2674,7 @@ Renderer::Renderer(Graphics * g, Simulation * sim):
 	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &airBuf);
 	glBindTexture(GL_TEXTURE_2D, airBuf);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, XRES/CELL, YRES/CELL, 0, GL_BGRA, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, XRES/CELL, YRES/CELL, 0, GL_BGRA, GL_UNSIGNED_BYTE, nullptr);
 
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
@@ -2686,7 +2686,7 @@ Renderer::Renderer(Graphics * g, Simulation * sim):
 	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &zoomTex);
 	glBindTexture(GL_TEXTURE_2D, zoomTex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0, GL_BGRA, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0, GL_BGRA, GL_UNSIGNED_BYTE, nullptr);
 
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
@@ -2698,7 +2698,7 @@ Renderer::Renderer(Graphics * g, Simulation * sim):
 	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &partsTFX);
 	glBindTexture(GL_TEXTURE_2D, partsTFX);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, XRES/CELL, YRES/CELL, 0, GL_BGRA, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, XRES/CELL, YRES/CELL, 0, GL_BGRA, GL_UNSIGNED_BYTE, nullptr);
 
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
@@ -2706,7 +2706,7 @@ Renderer::Renderer(Graphics * g, Simulation * sim):
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glGenTextures(1, &partsTFY);
 	glBindTexture(GL_TEXTURE_2D, partsTFY);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, XRES/CELL, YRES/CELL, 0, GL_BGRA, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, XRES/CELL, YRES/CELL, 0, GL_BGRA, GL_UNSIGNED_BYTE, nullptr);
 
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
@@ -2719,7 +2719,7 @@ Renderer::Renderer(Graphics * g, Simulation * sim):
 	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &airVX);
 	glBindTexture(GL_TEXTURE_2D, airVX);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, XRES/CELL, YRES/CELL, 0, GL_BGRA, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, XRES/CELL, YRES/CELL, 0, GL_BGRA, GL_UNSIGNED_BYTE, nullptr);
 
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
@@ -2727,7 +2727,7 @@ Renderer::Renderer(Graphics * g, Simulation * sim):
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glGenTextures(1, &airVY);
 	glBindTexture(GL_TEXTURE_2D, airVY);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, XRES/CELL, YRES/CELL, 0, GL_BGRA, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, XRES/CELL, YRES/CELL, 0, GL_BGRA, GL_UNSIGNED_BYTE, nullptr);
 
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
@@ -2735,7 +2735,7 @@ Renderer::Renderer(Graphics * g, Simulation * sim):
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glGenTextures(1, &airPV);
 	glBindTexture(GL_TEXTURE_2D, airPV);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, XRES/CELL, YRES/CELL, 0, GL_BGRA, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, XRES/CELL, YRES/CELL, 0, GL_BGRA, GL_UNSIGNED_BYTE, nullptr);
 
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
@@ -2747,7 +2747,7 @@ Renderer::Renderer(Graphics * g, Simulation * sim):
 	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &fireAlpha);
 	glBindTexture(GL_TEXTURE_2D, fireAlpha);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, CELL*3, CELL*3, 0, GL_ALPHA, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, CELL*3, CELL*3, 0, GL_ALPHA, GL_FLOAT, nullptr);
 
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
@@ -2759,7 +2759,7 @@ Renderer::Renderer(Graphics * g, Simulation * sim):
 	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &glowAlpha);
 	glBindTexture(GL_TEXTURE_2D, glowAlpha);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, 11, 11, 0, GL_ALPHA, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, 11, 11, 0, GL_ALPHA, GL_FLOAT, nullptr);
 
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
@@ -2772,7 +2772,7 @@ Renderer::Renderer(Graphics * g, Simulation * sim):
 	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &blurAlpha);
 	glBindTexture(GL_TEXTURE_2D, blurAlpha);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, 7, 7, 0, GL_ALPHA, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, 7, 7, 0, GL_ALPHA, GL_FLOAT, nullptr);
 
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);

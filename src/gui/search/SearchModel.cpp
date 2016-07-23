@@ -4,7 +4,7 @@
 #include "client/Client.h"
 
 SearchModel::SearchModel():
-	loadedSave(NULL),
+	loadedSave(nullptr),
 	currentSort("best"),
 	currentPage(1),
 	resultCount(0),
@@ -109,7 +109,7 @@ void SearchModel::SetLoadedSave(SaveInfo * save)
 	}
 	else
 	{
-		loadedSave = NULL;
+		loadedSave = nullptr;
 	}
 }
 

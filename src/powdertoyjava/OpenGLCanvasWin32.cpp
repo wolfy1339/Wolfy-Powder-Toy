@@ -1,7 +1,7 @@
 #if defined(USE_JNI) && defined(WIN)
 #include "OpenGLCanvasWin32.h"
 
-static jfieldID ctxID = NULL;
+static jfieldID ctxID = nullptr;
 
 int defaultPixelFormat(PIXELFORMATDESCRIPTOR* pfd)
 {
@@ -76,7 +76,7 @@ JNIEXPORT jboolean JNICALL Java_OpenGLCanvas_beginOpenGL(JNIEnv *env, jobject ca
     if (env->ExceptionOccurred()) {
         env->ExceptionDescribe();
     }
-    assert(ci->ds != NULL);
+    assert(ci->ds != nullptr);
 
 	// Lock the drawing surface
     // You must lock EACH TIME before drawing
@@ -89,9 +89,9 @@ JNIEXPORT jboolean JNICALL Java_OpenGLCanvas_beginOpenGL(JNIEnv *env, jobject ca
     // Get the drawing surface info
     ci->dsi = ci->ds->GetDrawingSurfaceInfo(ci->ds);
 	
-	// Check DrawingSurfaceInfo.  This can be NULL on Mac OS X
+	// Check DrawingSurfaceInfo.  This can be nullptr on Mac OS X
     // if the windowing system is not ready
-	if (ci->dsi != NULL) {
+	if (ci->dsi != nullptr) {
         // Get the platform-specific drawing info
         // We will use this to get at Cocoa and CoreGraphics
         // See <JavaVM/jawt_md.h>

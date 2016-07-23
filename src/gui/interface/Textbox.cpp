@@ -22,7 +22,7 @@ Textbox::Textbox(Point position, Point size, std::string textboxText, std::strin
 	mouseDown(false),
 	masked(false),
 	border(true),
-	actionCallback(NULL)
+	actionCallback(nullptr)
 {
 	placeHolder = textboxPlaceholder;
 
@@ -543,7 +543,7 @@ void Textbox::Draw(const Point& screenPos)
 Textbox::Textbox(Point position, Point size, std::string textboxText):
 	Component(position, size),
 	text(textboxText),
-	actionCallback(NULL),
+	actionCallback(nullptr),
 	masked(false),
 	border(true)
 {

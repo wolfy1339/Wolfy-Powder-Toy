@@ -189,8 +189,8 @@
 // old Platform.h stuff, maybe we should have a file for these kinds of things
 typedef unsigned short Uint16;
 
-#ifndef NULL
-# define NULL 0
+#ifndef nullptr
+# define nullptr 0
 #endif
 
 #include <climits>

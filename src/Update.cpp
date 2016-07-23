@@ -57,7 +57,7 @@ int update_start(char *data, unsigned int len)
 	}
 	fclose(f);
 
-	if ((uintptr_t)ShellExecute(NULL, "open", self, NULL, NULL, SW_SHOWNORMAL) <= 32)
+	if ((uintptr_t)ShellExecute(nullptr, "open", self, nullptr, nullptr, SW_SHOWNORMAL) <= 32)
 	{
 		DeleteFile(self);
 		goto fail;
@@ -92,7 +92,7 @@ int update_start(char *data, unsigned int len)
 		goto fail;
 	}
 
-	execl(self, "powder-update", NULL);
+	execl(self, "powder-update", nullptr);
 #endif
 
 fail:

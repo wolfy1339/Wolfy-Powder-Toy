@@ -17,7 +17,7 @@ void Task::Start()
 	status = "";
 	//taskMutex = PTHREAD_MUTEX_INITIALIZER;
 	before();
-	pthread_mutex_init (&taskMutex, NULL);
+	pthread_mutex_init (&taskMutex, nullptr);
 	pthread_create(&doWorkThread, 0, &Task::doWork_helper, this);
 }
 
@@ -84,7 +84,7 @@ void Task::Poll()
 		{
 			done = newDone;
 
-			pthread_join(doWorkThread, NULL);
+			pthread_join(doWorkThread, nullptr);
 			pthread_mutex_destroy(&taskMutex);
 			
 			after();
@@ -98,7 +98,7 @@ Task::~Task()
 {
 	if(!done)
 	{
-		pthread_join(doWorkThread, NULL);
+		pthread_join(doWorkThread, nullptr);
 		pthread_mutex_destroy(&taskMutex);
 	}
 }
@@ -130,7 +130,7 @@ TH_ENTRY_POINT void * Task::doWork_helper(void * ref)
 	((Task*)ref)->thSuccess = newSuccess;
 	((Task*)ref)->thDone = true;
 	pthread_mutex_unlock(&((Task*)ref)->taskMutex);
-	return NULL;
+	return nullptr;
 }
 
 void Task::notifyProgress(int progress)

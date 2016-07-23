@@ -64,8 +64,8 @@ extern "C"
 
 Client::Client():
 	messageOfTheDay(""),
-	versionCheckRequest(NULL),
-	alternateVersionCheckRequest(NULL),
+	versionCheckRequest(nullptr),
+	alternateVersionCheckRequest(nullptr),
 	usingAltUpdateServer(false),
 	updateAvailable(false),
 	authUser(0, "")
@@ -73,11 +73,11 @@ Client::Client():
 	int i = 0;
 	for(i = 0; i < THUMB_CACHE_SIZE; i++)
 	{
-		thumbnailCache[i] = NULL;
+		thumbnailCache[i] = nullptr;
 	}
 	for(i = 0; i < IMGCONNS; i++)
 	{
-		activeThumbRequests[i] = NULL;
+		activeThumbRequests[i] = nullptr;
 		activeThumbRequestTimes[i] = 0;
 		activeThumbRequestCompleteTimes[i] = 0;
 	}
@@ -130,7 +130,7 @@ void Client::Initialise(std::string proxyString)
 	if (proxyString.length())
 		http_init((char*)proxyString.c_str());
 	else
-		http_init(NULL);
+		http_init(nullptr);
 
 	//Read stamps library
 	std::ifstream stampsLib;
@@ -147,7 +147,7 @@ void Client::Initialise(std::string proxyString)
 	stampsLib.close();
 
 	//Begin version check
-	versionCheckRequest = http_async_req_start(NULL, "http://" SERVER "/Startup.json", NULL, 0, 0);
+	versionCheckRequest = http_async_req_start(nullptr, "http://" SERVER "/Startup.json", nullptr, 0, 0);
 
 	if (authUser.ID)
 	{
@@ -156,18 +156,18 @@ void Client::Initialise(std::string proxyString)
 		std::strcpy (id, idTempString.c_str());
 		char *session = new char[authUser.SessionID.length() + 1];
 		std::strcpy (session, authUser.SessionID.c_str());
-		http_auth_headers(versionCheckRequest, id, NULL, session);
+		http_auth_headers(versionCheckRequest, id, nullptr, session);
 		delete[] id;
 		delete[] session;
 	}
 
 #ifdef UPDATESERVER
 	// use an alternate update server
-	alternateVersionCheckRequest = http_async_req_start(NULL, "http://" UPDATESERVER "/Startup.json", NULL, 0, 0);
+	alternateVersionCheckRequest = http_async_req_start(nullptr, "http://" UPDATESERVER "/Startup.json", nullptr, 0, 0);
 	usingAltUpdateServer = true;
 	if (authUser.ID)
 	{
-		http_auth_headers(alternateVersionCheckRequest, authUser.Username.c_str(), NULL, NULL);
+		http_auth_headers(alternateVersionCheckRequest, authUser.Username.c_str(), nullptr, nullptr);
 	}
 #endif
 }
@@ -184,22 +184,22 @@ bool Client::DoInstallation()
 	LONG rresult;
 	HKEY newkey;
 	char *currentfilename = Platform::ExecutableName();
-	char *iconname = NULL;
-	char *opencommand = NULL;
-	char *protocolcommand = NULL;
+	char *iconname = nullptr;
+	char *opencommand = nullptr;
+	char *protocolcommand = nullptr;
 	//char AppDataPath[MAX_PATH];
-	char *AppDataPath = NULL;
+	char *AppDataPath = nullptr;
 	iconname = (char*)malloc(strlen(currentfilename)+6);
 	sprintf(iconname, "%s,-102", currentfilename);
 	
 	//Create Roaming application data folder
-	/*if(!SUCCEEDED(SHGetFolderPath(NULL, CSIDL_APPDATA|CSIDL_FLAG_CREATE, NULL, 0, AppDataPath))) 
+	/*if(!SUCCEEDED(SHGetFolderPath(nullptr, CSIDL_APPDATA|CSIDL_FLAG_CREATE, nullptr, 0, AppDataPath))) 
 	{
 		returnval = 0;
 		goto finalise;
 	}*/
 	
-	AppDataPath = _getcwd(NULL, 0);
+	AppDataPath = _getcwd(nullptr, 0);
 
 	//Move Game executable into application data folder
 	//TODO: Implement
@@ -220,7 +220,7 @@ bool Client::DoInstallation()
 	sprintf(protocolcommand, "\"%s\" ddir \"%s\" ptsave \"%%1\"", currentfilename, AppDataPath);
 
 	//Create protocol entry
-	rresult = RegCreateKeyEx(HKEY_CURRENT_USER, "Software\\Classes\\ptsave", 0, 0, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &newkey, NULL);
+	rresult = RegCreateKeyEx(HKEY_CURRENT_USER, "Software\\Classes\\ptsave", 0, 0, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr, &newkey, nullptr);
 	if (rresult != ERROR_SUCCESS) {
 		returnval = 0;
 		goto finalise;
@@ -240,7 +240,7 @@ bool Client::DoInstallation()
 	RegCloseKey(newkey);
 	
 	//Set Protocol DefaultIcon
-	rresult = RegCreateKeyEx(HKEY_CURRENT_USER, "Software\\Classes\\ptsave\\DefaultIcon", 0, 0, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &newkey, NULL);
+	rresult = RegCreateKeyEx(HKEY_CURRENT_USER, "Software\\Classes\\ptsave\\DefaultIcon", 0, 0, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr, &newkey, nullptr);
 	if (rresult != ERROR_SUCCESS) {
 		returnval = 0;
 		goto finalise;
@@ -254,7 +254,7 @@ bool Client::DoInstallation()
 	RegCloseKey(newkey);	
 	
 	//Set Protocol Launch command
-	rresult = RegCreateKeyEx(HKEY_CURRENT_USER, "Software\\Classes\\ptsave\\shell\\open\\command", 0, 0, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &newkey, NULL);
+	rresult = RegCreateKeyEx(HKEY_CURRENT_USER, "Software\\Classes\\ptsave\\shell\\open\\command", 0, 0, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr, &newkey, nullptr);
 	if (rresult != ERROR_SUCCESS) {
 		returnval = 0;
 		goto finalise;
@@ -268,7 +268,7 @@ bool Client::DoInstallation()
 	RegCloseKey(newkey);
 
 	//Create extension entry
-	rresult = RegCreateKeyEx(HKEY_CURRENT_USER, "Software\\Classes\\.cps", 0, 0, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &newkey, NULL);
+	rresult = RegCreateKeyEx(HKEY_CURRENT_USER, "Software\\Classes\\.cps", 0, 0, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr, &newkey, nullptr);
 	if (rresult != ERROR_SUCCESS) {
 		returnval = 0;
 		goto finalise;
@@ -281,7 +281,7 @@ bool Client::DoInstallation()
 	}
 	RegCloseKey(newkey);
 
-	rresult = RegCreateKeyEx(HKEY_CURRENT_USER, "Software\\Classes\\.stm", 0, 0, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &newkey, NULL);
+	rresult = RegCreateKeyEx(HKEY_CURRENT_USER, "Software\\Classes\\.stm", 0, 0, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr, &newkey, nullptr);
 	if (rresult != ERROR_SUCCESS) {
 		returnval = 0;
 		goto finalise;
@@ -295,7 +295,7 @@ bool Client::DoInstallation()
 	RegCloseKey(newkey);
 
 	//Create program entry
-	rresult = RegCreateKeyEx(HKEY_CURRENT_USER, "Software\\Classes\\PowderToySave", 0, 0, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &newkey, NULL);
+	rresult = RegCreateKeyEx(HKEY_CURRENT_USER, "Software\\Classes\\PowderToySave", 0, 0, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr, &newkey, nullptr);
 	if (rresult != ERROR_SUCCESS) {
 		returnval = 0;
 		goto finalise;
@@ -309,7 +309,7 @@ bool Client::DoInstallation()
 	RegCloseKey(newkey);
 
 	//Set DefaultIcon
-	rresult = RegCreateKeyEx(HKEY_CURRENT_USER, "Software\\Classes\\PowderToySave\\DefaultIcon", 0, 0, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &newkey, NULL);
+	rresult = RegCreateKeyEx(HKEY_CURRENT_USER, "Software\\Classes\\PowderToySave\\DefaultIcon", 0, 0, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr, &newkey, nullptr);
 	if (rresult != ERROR_SUCCESS) {
 		returnval = 0;
 		goto finalise;
@@ -323,7 +323,7 @@ bool Client::DoInstallation()
 	RegCloseKey(newkey);
 
 	//Set Launch command
-	rresult = RegCreateKeyEx(HKEY_CURRENT_USER, "Software\\Classes\\PowderToySave\\shell\\open\\command", 0, 0, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &newkey, NULL);
+	rresult = RegCreateKeyEx(HKEY_CURRENT_USER, "Software\\Classes\\PowderToySave\\shell\\open\\command", 0, 0, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr, &newkey, nullptr);
 	if (rresult != ERROR_SUCCESS) {
 		returnval = 0;
 		goto finalise;
@@ -472,7 +472,7 @@ void Client::SetProxy(std::string proxy)
 	if(proxy.length())
 		http_init((char*)proxy.c_str());
 	else
-		http_init(NULL);
+		http_init(nullptr);
 }
 
 std::vector<std::string> Client::DirectorySearch(std::string directory, std::string search, std::string extension)
@@ -763,12 +763,12 @@ void Client::Tick()
 	if (versionCheckRequest)
 	{
 		if (CheckUpdate(versionCheckRequest, true))
-			versionCheckRequest = NULL;
+			versionCheckRequest = nullptr;
 	}
 	if (alternateVersionCheckRequest)
 	{
 		if (CheckUpdate(alternateVersionCheckRequest, false))
-			alternateVersionCheckRequest = NULL;
+			alternateVersionCheckRequest = nullptr;
 	}
 }
 
@@ -998,7 +998,7 @@ RequestStatus Client::UploadSave(SaveInfo & save)
 {
 	lastError = "";
 	unsigned int gameDataLength;
-	char * gameData = NULL;
+	char * gameData = nullptr;
 	int dataStatus;
 	char * data;
 	int dataLength = 0;
@@ -1037,10 +1037,10 @@ RequestStatus Client::UploadSave(SaveInfo & save)
 		char *session = new char[authUser.SessionID.length() + 1];
 		std::strcpy (session, authUser.SessionID.c_str());
 
-		const char *const postNames[] = { "Name", "Description", "Data:save.bin", "Publish", NULL };
+		const char *const postNames[] = { "Name", "Description", "Data:save.bin", "Publish", nullptr };
 		const char *const postDatas[] = { saveName, saveDescription, gameData, (char *)(save.GetPublished()?"Public":"Private") };
 		size_t postLengths[] = { save.GetName().length(), save.GetDescription().length(), gameDataLength, (size_t)(save.GetPublished()?6:7) };
-		data = http_multipart_post("http://" SERVER "/Save.api", postNames, postDatas, postLengths, userid, NULL, session, &dataStatus, &dataLength);
+		data = http_multipart_post("http://" SERVER "/Save.api", postNames, postDatas, postLengths, userid, nullptr, session, &dataStatus, &dataLength);
 
 		delete[] saveDescription;
 		delete[] saveName;
@@ -1128,7 +1128,7 @@ void Client::DeleteStamp(std::string stampID)
 
 std::string Client::AddStamp(GameSave * saveData)
 {
-	unsigned t=(unsigned)time(NULL);
+	unsigned t=(unsigned)time(nullptr);
 	if (lastStampTime!=t)
 	{
 		lastStampTime=t;
@@ -1181,7 +1181,7 @@ void Client::RescanStamps()
 	DIR * directory;
 	struct dirent * entry;
 	directory = opendir("stamps");
-	if (directory != NULL)
+	if (directory != nullptr)
 	{
 		stampIDs.clear();
 		while ((entry = readdir(directory)))
@@ -1243,10 +1243,10 @@ RequestStatus Client::ExecVote(int saveID, int direction)
 		char *session = new char[authUser.SessionID.length() + 1];
 		std::strcpy(session, authUser.SessionID.c_str());
 
-		const char *const postNames[] = { "ID", "Action", NULL };
+		const char *const postNames[] = { "ID", "Action", nullptr };
 		const char *const postDatas[] = { id, directionText };
 		size_t postLengths[] = { saveIDText.length(), strlen(directionText) };
-		data = http_multipart_post("http://" SERVER "/Vote.api", postNames, postDatas, postLengths, userid, NULL, session, &dataStatus, &dataLength);
+		data = http_multipart_post("http://" SERVER "/Vote.api", postNames, postDatas, postLengths, userid, nullptr, session, &dataStatus, &dataLength);
 
 		delete[] id;
 		delete[] userid;
@@ -1283,7 +1283,7 @@ unsigned char * Client::GetSaveData(int saveID, int saveDate, int & dataLength)
 	if (data && dataStatus == 200)
 		return (unsigned char *)data;
 	free(data);
-	return NULL;
+	return nullptr;
 }
 
 std::vector<unsigned char> Client::GetSaveData(int saveID, int saveDate)
@@ -1399,10 +1399,10 @@ LoginStatus Client::Login(std::string username, std::string password, User & use
 
 	char * data;
 	int dataStatus, dataLength;
-	const char *const postNames[] = { "Username", "Hash", NULL };
+	const char *const postNames[] = { "Username", "Hash", nullptr };
 	const char *const postDatas[] = { (char*)username.c_str(), totalHash };
 	size_t postLengths[] = { username.length(), 32 };
-	data = http_multipart_post("http://" SERVER "/Login.json", postNames, postDatas, postLengths, NULL, NULL, NULL, &dataStatus, &dataLength);
+	data = http_multipart_post("http://" SERVER "/Login.json", postNames, postDatas, postLengths, nullptr, nullptr, nullptr, &dataStatus, &dataLength);
 	RequestStatus ret = ParseServerReturn(data, dataStatus, true);
 	if (ret == RequestOkay)
 	{
@@ -1455,14 +1455,14 @@ RequestStatus Client::DeleteSave(int saveID)
 {
 	lastError = "";
 	std::stringstream urlStream;
-	char * data = NULL;
+	char * data = nullptr;
 	int dataStatus, dataLength;
 	urlStream << "http://" << SERVER << "/Browse/Delete.json?ID=" << saveID << "&Mode=Delete&Key=" << authUser.SessionKey;
 	if(authUser.ID)
 	{
 		std::stringstream userIDStream;
 		userIDStream << authUser.ID;
-		data = http_auth_get((char *)urlStream.str().c_str(), (char *)(userIDStream.str().c_str()), NULL, (char *)(authUser.SessionID.c_str()), &dataStatus, &dataLength);
+		data = http_auth_get((char *)urlStream.str().c_str(), (char *)(userIDStream.str().c_str()), nullptr, (char *)(authUser.SessionID.c_str()), &dataStatus, &dataLength);
 	}
 	else
 	{
@@ -1478,7 +1478,7 @@ RequestStatus Client::AddComment(int saveID, std::string comment)
 {
 	lastError = "";
 	std::stringstream urlStream;
-	char * data = NULL;
+	char * data = nullptr;
 	int dataStatus, dataLength;
 	urlStream << "http://" << SERVER << "/Browse/Comments.json?ID=" << saveID;
 	if(authUser.ID)
@@ -1486,10 +1486,10 @@ RequestStatus Client::AddComment(int saveID, std::string comment)
 		std::stringstream userIDStream;
 		userIDStream << authUser.ID;
 		
-		const char *const postNames[] = { "Comment", NULL };
+		const char *const postNames[] = { "Comment", nullptr };
 		const char *const postDatas[] = { (char*)(comment.c_str()) };
 		size_t postLengths[] = { comment.length() };
-		data = http_multipart_post((char *)urlStream.str().c_str(), postNames, postDatas, postLengths, (char *)(userIDStream.str().c_str()), NULL, (char *)(authUser.SessionID.c_str()), &dataStatus, &dataLength);
+		data = http_multipart_post((char *)urlStream.str().c_str(), postNames, postDatas, postLengths, (char *)(userIDStream.str().c_str()), nullptr, (char *)(authUser.SessionID.c_str()), &dataStatus, &dataLength);
 	}
 	else
 	{
@@ -1505,7 +1505,7 @@ RequestStatus Client::FavouriteSave(int saveID, bool favourite)
 {
 	lastError = "";
 	std::stringstream urlStream;
-	char * data = NULL;
+	char * data = nullptr;
 	int dataStatus, dataLength;
 	urlStream << "http://" << SERVER << "/Browse/Favourite.json?ID=" << saveID << "&Key=" << authUser.SessionKey;
 	if(!favourite)
@@ -1514,7 +1514,7 @@ RequestStatus Client::FavouriteSave(int saveID, bool favourite)
 	{
 		std::stringstream userIDStream;
 		userIDStream << authUser.ID;
-		data = http_auth_get((char *)urlStream.str().c_str(), (char *)(userIDStream.str().c_str()), NULL, (char *)(authUser.SessionID.c_str()), &dataStatus, &dataLength);
+		data = http_auth_get((char *)urlStream.str().c_str(), (char *)(userIDStream.str().c_str()), nullptr, (char *)(authUser.SessionID.c_str()), &dataStatus, &dataLength);
 	}
 	else
 	{
@@ -1530,7 +1530,7 @@ RequestStatus Client::ReportSave(int saveID, std::string message)
 {
 	lastError = "";
 	std::stringstream urlStream;
-	char * data = NULL;
+	char * data = nullptr;
 	int dataStatus, dataLength;
 	urlStream << "http://" << SERVER << "/Browse/Report.json?ID=" << saveID << "&Key=" << authUser.SessionKey;
 	if(authUser.ID)
@@ -1538,10 +1538,10 @@ RequestStatus Client::ReportSave(int saveID, std::string message)
 		std::stringstream userIDStream;
 		userIDStream << authUser.ID;
 
-		const char *const postNames[] = { "Reason", NULL };
+		const char *const postNames[] = { "Reason", nullptr };
 		const char *const postDatas[] = { (char*)(message.c_str()) };
 		size_t postLengths[] = { message.length() };
-		data = http_multipart_post((char *)urlStream.str().c_str(), postNames, postDatas, postLengths, (char *)(userIDStream.str().c_str()), NULL, (char *)(authUser.SessionID.c_str()), &dataStatus, &dataLength);
+		data = http_multipart_post((char *)urlStream.str().c_str(), postNames, postDatas, postLengths, (char *)(userIDStream.str().c_str()), nullptr, (char *)(authUser.SessionID.c_str()), &dataStatus, &dataLength);
 	}
 	else
 	{
@@ -1557,14 +1557,14 @@ RequestStatus Client::UnpublishSave(int saveID)
 {
 	lastError = "";
 	std::stringstream urlStream;
-	char * data = NULL;
+	char * data = nullptr;
 	int dataStatus, dataLength;
 	urlStream << "http://" << SERVER << "/Browse/Delete.json?ID=" << saveID << "&Mode=Unpublish&Key=" << authUser.SessionKey;
 	if(authUser.ID)
 	{
 		std::stringstream userIDStream;
 		userIDStream << authUser.ID;
-		data = http_auth_get((char *)urlStream.str().c_str(), (char *)(userIDStream.str().c_str()), NULL, (char *)(authUser.SessionID.c_str()), &dataStatus, &dataLength);
+		data = http_auth_get((char *)urlStream.str().c_str(), (char *)(userIDStream.str().c_str()), nullptr, (char *)(authUser.SessionID.c_str()), &dataStatus, &dataLength);
 	}
 	else
 	{
@@ -1587,10 +1587,10 @@ RequestStatus Client::PublishSave(int saveID)
 	{
 		std::stringstream userIDStream;
 		userIDStream << authUser.ID;
-		const char *const postNames[] = { "ActionPublish", NULL };
+		const char *const postNames[] = { "ActionPublish", nullptr };
 		const char *const postDatas[] = { "" };
 		size_t postLengths[] = { 1 };
-		data = http_multipart_post(urlStream.str().c_str(), postNames, postDatas, postLengths, userIDStream.str().c_str(), NULL, authUser.SessionID.c_str(), &dataStatus, NULL);	}
+		data = http_multipart_post(urlStream.str().c_str(), postNames, postDatas, postLengths, userIDStream.str().c_str(), nullptr, authUser.SessionID.c_str(), &dataStatus, nullptr);	}
 	else
 	{
 		lastError = "Not authenticated";
@@ -1616,7 +1616,7 @@ SaveInfo * Client::GetSave(int saveID, int saveDate)
 	{
 		std::stringstream userIDStream;
 		userIDStream << authUser.ID;
-		data = http_auth_get((char *)urlStream.str().c_str(), (char *)(userIDStream.str().c_str()), NULL, (char *)(authUser.SessionID.c_str()), &dataStatus, &dataLength);
+		data = http_auth_get((char *)urlStream.str().c_str(), (char *)(userIDStream.str().c_str()), nullptr, (char *)(authUser.SessionID.c_str()), &dataStatus, &dataLength);
 	}
 	else
 	{
@@ -1663,7 +1663,7 @@ SaveInfo * Client::GetSave(int saveID, int saveDate)
 		{
 			lastError = std::string("Could not read response: ") + e.what();
 			free(data);
-			return NULL;
+			return nullptr;
 		}
 	}
 	else
@@ -1671,7 +1671,7 @@ SaveInfo * Client::GetSave(int saveID, int saveDate)
 		free(data);
 		lastError = http_ret_text(dataStatus);
 	}
-	return NULL;
+	return nullptr;
 }
 
 RequestBroker::Request * Client::GetSaveAsync(int saveID, int saveDate)
@@ -1723,7 +1723,7 @@ RequestBroker::Request * Client::GetSaveAsync(int saveID, int saveDate)
 			}
 			catch (std::exception &e)
 			{
-				return NULL;
+				return nullptr;
 			}
 		}
 		virtual void Cleanup(void * objectPtr)
@@ -1763,7 +1763,7 @@ RequestBroker::Request * Client::GetCommentsAsync(int saveID, int start, int cou
 			catch (std::exception &e)
 			{
 				delete commentArray;
-				return NULL;
+				return nullptr;
 			}
 		}
 		virtual void Cleanup(void * objectPtr)
@@ -1854,7 +1854,7 @@ std::vector<SaveInfo*> * Client::SearchSaves(int start, int count, std::string q
 	{
 		std::stringstream userIDStream;
 		userIDStream << authUser.ID;
-		data = http_auth_get((char *)urlStream.str().c_str(), (char *)(userIDStream.str().c_str()), NULL, (char *)(authUser.SessionID.c_str()), &dataStatus, &dataLength);
+		data = http_auth_get((char *)urlStream.str().c_str(), (char *)(userIDStream.str().c_str()), nullptr, (char *)(authUser.SessionID.c_str()), &dataStatus, &dataLength);
 	}
 	else
 	{
@@ -1903,7 +1903,7 @@ void Client::ClearThumbnailRequests()
 		if(activeThumbRequests[i])
 		{
 			http_async_req_close(activeThumbRequests[i]);
-			activeThumbRequests[i] = NULL;
+			activeThumbRequests[i] = nullptr;
 			activeThumbRequestTimes[i] = 0;
 			activeThumbRequestCompleteTimes[i] = 0;
 		}
@@ -1913,21 +1913,21 @@ void Client::ClearThumbnailRequests()
 std::list<std::string> * Client::RemoveTag(int saveID, std::string tag)
 {
 	lastError = "";
-	std::list<std::string> * tags = NULL;
+	std::list<std::string> * tags = nullptr;
 	std::stringstream urlStream;
-	char * data = NULL;
+	char * data = nullptr;
 	int dataStatus, dataLength;
 	urlStream << "http://" << SERVER << "/Browse/EditTag.json?Op=delete&ID=" << saveID << "&Tag=" << tag << "&Key=" << authUser.SessionKey;
 	if(authUser.ID)
 	{
 		std::stringstream userIDStream;
 		userIDStream << authUser.ID;
-		data = http_auth_get((char *)urlStream.str().c_str(), (char *)(userIDStream.str().c_str()), NULL, (char *)(authUser.SessionID.c_str()), &dataStatus, &dataLength);
+		data = http_auth_get((char *)urlStream.str().c_str(), (char *)(userIDStream.str().c_str()), nullptr, (char *)(authUser.SessionID.c_str()), &dataStatus, &dataLength);
 	}
 	else
 	{
 		lastError = "Not authenticated";
-		return NULL;
+		return nullptr;
 	}
 	RequestStatus ret = ParseServerReturn(data, dataStatus, true);
 	if (ret == RequestOkay)
@@ -1955,21 +1955,21 @@ std::list<std::string> * Client::RemoveTag(int saveID, std::string tag)
 std::list<std::string> * Client::AddTag(int saveID, std::string tag)
 {
 	lastError = "";
-	std::list<std::string> * tags = NULL;
+	std::list<std::string> * tags = nullptr;
 	std::stringstream urlStream;
-	char * data = NULL;
+	char * data = nullptr;
 	int dataStatus, dataLength;
 	urlStream << "http://" << SERVER << "/Browse/EditTag.json?Op=add&ID=" << saveID << "&Tag=" << tag << "&Key=" << authUser.SessionKey;
 	if(authUser.ID)
 	{
 		std::stringstream userIDStream;
 		userIDStream << authUser.ID;
-		data = http_auth_get((char *)urlStream.str().c_str(), (char *)(userIDStream.str().c_str()), NULL, (char *)(authUser.SessionID.c_str()), &dataStatus, &dataLength);
+		data = http_auth_get((char *)urlStream.str().c_str(), (char *)(userIDStream.str().c_str()), nullptr, (char *)(authUser.SessionID.c_str()), &dataStatus, &dataLength);
 	}
 	else
 	{
 		lastError = "Not authenticated";
-		return NULL;
+		return nullptr;
 	}
 	RequestStatus ret = ParseServerReturn(data, dataStatus, true);
 	if (ret == RequestOkay)

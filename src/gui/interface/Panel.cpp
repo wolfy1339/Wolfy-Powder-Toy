@@ -22,7 +22,7 @@ Panel::Panel(Point position, Point size):
 	glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &myVidTex);
 	glBindTexture(GL_TEXTURE_2D, myVidTex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, WINDOWW, WINDOWH, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, WINDOWW, WINDOWH, 0, GL_RGBA, GL_FLOAT, nullptr);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 
@@ -80,7 +80,7 @@ void Panel::RemoveChild(Component* c)
 			//remove child from parent. Does not free memory
 			children.erase(children.begin() + i);
 			if (this->GetParentWindow()->IsFocused(c))
-				this->GetParentWindow()->FocusComponent(NULL);
+				this->GetParentWindow()->FocusComponent(nullptr);
 			break;
 		}
 	}

@@ -464,14 +464,14 @@ int bson_iterator_string_len( const bson_iterator *i );
 /**
  * Get the code value of the BSON object currently pointed to by the
  * iterator. Works with bson_code, bson_codewscope, and BSON_STRING
- * returns NULL for everything else.
+ * returns nullptr for everything else.
  *
  * @param i the bson_iterator
  *
  * @return the code value of the current BSON object.
  */
 /* works with bson_code, bson_codewscope, and BSON_STRING */
-/* returns NULL for everything else */
+/* returns nullptr for everything else */
 const char *bson_iterator_code( const bson_iterator *i );
 
 /**
@@ -728,7 +728,7 @@ bson *bson_empty( bson *obj );
  * @param out the copy destination BSON object.
  * @param in the copy source BSON object.
  */
-int bson_copy( bson *out, const bson *in ); /* puts data in new buffer. NOOP if out==NULL */
+int bson_copy( bson *out, const bson *in ); /* puts data in new buffer. NOOP if out==nullptr */
 
 /**
  * Append a previously created bson_oid_t to a bson object.
@@ -950,7 +950,7 @@ int bson_append_bson( bson *b, const char *name, const bson *bson );
  * Append a BSON element to a bson from the current point of an iterator.
  *
  * @param b the bson to append to.
- * @param name_or_null the key for the BSON element, or NULL.
+ * @param name_or_null the key for the BSON element, or nullptr.
  * @param elem the bson_iterator.
  *
  * @return BSON_OK or BSON_ERROR.
@@ -1083,7 +1083,7 @@ void *bson_realloc( void *ptr, int size );
  *
  * @param func a bson_err_handler function.
  *
- * @return the old error handling function, or NULL.
+ * @return the old error handling function, or nullptr.
  */
 bson_err_handler set_bson_err_handler( bson_err_handler func );
 

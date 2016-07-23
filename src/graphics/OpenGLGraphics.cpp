@@ -9,7 +9,7 @@ Graphics::Graphics():
 	sdl_scale(1)
 {
 //	if(gMutex == TMPMUT)
-//		pthread_mutex_init (&gMutex, NULL);
+//		pthread_mutex_init (&gMutex, nullptr);
 	LoadDefaults();
 	InitialiseTextures();
 	
@@ -44,7 +44,7 @@ void Graphics::InitialiseTextures()
 	
 	glGenTextures(1, &vidBuf);
 	glBindTexture(GL_TEXTURE_2D, vidBuf);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, WINDOWW, WINDOWH, 0, GL_BGRA, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, WINDOWW, WINDOWH, 0, GL_BGRA, GL_UNSIGNED_BYTE, nullptr);
 	
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);

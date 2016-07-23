@@ -79,7 +79,7 @@ void ClipboardPush(std::string text)
 #ifdef MACOSX
 	writeClipboard(text.c_str());
 #elif defined(WIN)
-	if (OpenClipboard(NULL))
+	if (OpenClipboard(nullptr))
 	{
 		HGLOBAL cbuffer;
 		char * glbuffer;
@@ -113,7 +113,7 @@ std::string ClipboardPull()
 	const char *text = readClipboard();
 	return text ? std::string(text) : "";
 #elif defined(WIN)
-	if (OpenClipboard(NULL))
+	if (OpenClipboard(nullptr))
 	{
 		HANDLE cbuffer;
 		char * glbuffer;
@@ -131,7 +131,7 @@ std::string ClipboardPull()
 	selectionOwner = XGetSelectionOwner(sdl_wminfo.info.x11.display, XA_CLIPBOARD);
 	if (selectionOwner != None)
 	{
-		unsigned char *data = NULL;
+		unsigned char *data = nullptr;
 		Atom type;
 		int format, result;
 		unsigned long len, bytesLeft;
@@ -158,7 +158,7 @@ std::string ClipboardPull()
 		if (data)
 		{
 			XFree(data);
-			data = NULL;
+			data = nullptr;
 		}
 		if (bytesLeft)
 		{
@@ -482,7 +482,7 @@ int SDLOpen()
 	HWND WindowHandle = SysInfo.window;
 
 	// Use GetModuleHandle to get the Exe HMODULE/HINSTANCE
-	HMODULE hModExe = GetModuleHandle(NULL);
+	HMODULE hModExe = GetModuleHandle(nullptr);
 	HICON hIconSmall = (HICON)LoadImage(hModExe, MAKEINTRESOURCE(101), IMAGE_ICON, 16, 16, LR_SHARED);
 	HICON hIconBig = (HICON)LoadImage(hModExe, MAKEINTRESOURCE(101), IMAGE_ICON, 32, 32, LR_SHARED);
 	SendMessage(WindowHandle, WM_SETICON, ICON_SMALL, (LPARAM)hIconSmall);
@@ -617,7 +617,7 @@ SDLKey MapNumpad(SDLKey key)
 int elapsedTime = 0, currentTime = 0, lastTime = 0, currentFrame = 0;
 unsigned int lastTick = 0;
 float fps = 0, delta = 1.0f, inputScale = 1.0f;
-ui::Engine * engine = NULL;
+ui::Engine * engine = nullptr;
 bool showDoubleScreenDialog = false;
 float currentWidth, currentHeight;
 
@@ -695,7 +695,7 @@ void EventProcess(SDL_Event event)
 		inputScale = (float)WINDOWW/currentWidth;
 
 		glLineWidth(currentWidth/(float)WINDOWW);
-		if(sdl_scrn == NULL)
+		if(sdl_scrn == nullptr)
 		{
 			std::cerr << "Oh bugger" << std::endl;
 		}
@@ -1097,7 +1097,7 @@ int main(int argc, char * argv[])
 	_MM_SET_DENORMALS_ZERO_MODE(_MM_DENORMALS_ZERO_ON);
 #endif
 
-	GameController * gameController = NULL;
+	GameController * gameController = nullptr;
 #if !defined(DEBUG) && !defined(_DEBUG)
 	try {
 #endif

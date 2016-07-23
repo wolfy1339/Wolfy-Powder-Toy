@@ -47,7 +47,7 @@ public:
 		showSplit(true),
 		splitPosition(split),
 		toolTip2(toolTip2),
-		splitActionCallback(NULL)
+		splitActionCallback(nullptr)
 	{
 
 	}
@@ -190,8 +190,8 @@ GameView::GameView():
 	recordingIndex(0),
 	currentPoint(ui::Point(0, 0)),
 	lastPoint(ui::Point(0, 0)),
-	ren(NULL),
-	activeBrush(NULL),
+	ren(nullptr),
+	activeBrush(nullptr),
 	saveSimulationButtonEnabled(false),
 	drawMode(DrawPoints),
 	drawPoint1(0, 0),
@@ -201,7 +201,7 @@ GameView::GameView():
 	selectPoint2(0, 0),
 	currentMouse(0, 0),
 	mousePosition(0, 0),
-	placeSaveThumb(NULL)
+	placeSaveThumb(nullptr)
 {
 
 	int currentX = 1;
@@ -809,11 +809,11 @@ void GameView::NotifyColourSelectorVisibilityChanged(GameModel * sender)
 	{
 		ToolButton * button = *iter;
 		RemoveComponent(button);
-		button->SetParentWindow(NULL);
+		button->SetParentWindow(nullptr);
 	}
 
 	RemoveComponent(colourPicker);
-	colourPicker->SetParentWindow(NULL);
+	colourPicker->SetParentWindow(nullptr);
 
 	if(sender->GetColourSelectorVisibility())
 	{
@@ -1948,7 +1948,7 @@ void GameView::NotifyPlaceSaveChanged(GameModel * sender)
 	}
 	else
 	{
-		placeSaveThumb = NULL;
+		placeSaveThumb = nullptr;
 		selectMode = SelectNone;
 	}
 }

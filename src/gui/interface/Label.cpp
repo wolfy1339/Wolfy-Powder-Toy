@@ -82,7 +82,7 @@ void Label::updateMultiline()
 
 		int wordWidth = 0;
 		int lineWidth = 0;
-		char * wordStart = NULL;
+		char * wordStart = nullptr;
 		while ((c = rawText[charIndex++]))
 		{
 			switch(c)
@@ -130,7 +130,7 @@ void Label::updateMultiline()
 		textLines = std::string(rawText);
 		delete[] rawText;
 		/*int currentWidth = 0;
-		char * lastSpace = NULL;
+		char * lastSpace = nullptr;
 		char * currentWord = rawText;
 		char * nextSpace;
 		while(true)

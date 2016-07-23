@@ -25,7 +25,7 @@ char *ExecutableName(void)
 #if defined(WIN)
 	char *name = (char *)malloc(64);
 	DWORD max = 64, res;
-	while ((res = GetModuleFileName(NULL, name, max)) >= max)
+	while ((res = GetModuleFileName(nullptr, name, max)) >= max)
 	{
 #elif defined MACOSX
 	char *fn = (char*)malloc(64),*name = (char*)malloc(PATH_MAX);
@@ -37,11 +37,11 @@ char *ExecutableName(void)
 		fn = realloced_fn;
 		_NSGetExecutablePath(fn, &max);
 	}
-	if (realpath(fn, name) == NULL)
+	if (realpath(fn, name) == nullptr)
 	{
 		free(fn);
 		free(name);
-		return NULL;
+		return nullptr;
 	}
 	res = 1;
 #else
@@ -63,7 +63,7 @@ char *ExecutableName(void)
 	if (res <= 0)
 	{
 		free(name);
-		return NULL;
+		return nullptr;
 	}
 	return name;
 }
@@ -74,9 +74,9 @@ void DoRestart()
 	if (exename)
 	{
 #ifdef WIN
-		ShellExecute(NULL, "open", exename, NULL, NULL, SW_SHOWNORMAL);
+		ShellExecute(nullptr, "open", exename, nullptr, nullptr, SW_SHOWNORMAL);
 #elif defined(LIN) || defined(MACOSX)
-		execl(exename, "powder", NULL);
+		execl(exename, "powder", nullptr);
 #endif
 		free(exename);
 	}
@@ -86,7 +86,7 @@ void DoRestart()
 void OpenURI(std::string uri)
 {
 #if defined(WIN)
-	ShellExecute(0, "OPEN", uri.c_str(), NULL, NULL, 0);
+	ShellExecute(0, "OPEN", uri.c_str(), nullptr, nullptr, 0);
 #elif defined(MACOSX)
 	char *cmd = (char*)malloc(7+uri.length());
 	strcpy(cmd, "open ");
@@ -110,7 +110,7 @@ void Millisleep(long int t)
 	struct timespec s;
 	s.tv_sec = t / 1000;
 	s.tv_nsec = (t % 1000) * 10000000;
-	nanosleep(&s, NULL);
+	nanosleep(&s, nullptr);
 #endif
 }
 
@@ -120,7 +120,7 @@ long unsigned int GetTime()
 	return GetTickCount();
 #elif defined(MACOSX)
 	struct timeval s;
-	gettimeofday(&s, NULL);
+	gettimeofday(&s, nullptr);
 	return (unsigned int)(s.tv_sec * 1000 + s.tv_usec / 1000);
 #else
 	struct timespec s;

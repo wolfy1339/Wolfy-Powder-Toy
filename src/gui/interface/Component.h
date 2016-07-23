@@ -53,7 +53,7 @@ namespace ui
 		Point GetScreenPos();
 		
 		/* See the parent of this component.
-		 * If new_parent is NULL, this component will have no parent. (THIS DOES NOT delete THE COMPONENT. See XComponent::RemoveChild)
+		 * If new_parent is nullptr, this component will have no parent. (THIS DOES NOT delete THE COMPONENT. See XComponent::RemoveChild)
 		 */
 		void SetParentWindow(Window* window);
 		void SetParent(Panel* new_parent);

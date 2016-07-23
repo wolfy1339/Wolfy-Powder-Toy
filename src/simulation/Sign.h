@@ -17,7 +17,7 @@ public:
 	std::string getText(Simulation *sim);
 	void pos(std::string signText, int & x0, int & y0, int & w, int & h);
 
-	static int splitsign(const char* str, char * type = NULL);
+	static int splitsign(const char* str, char * type = nullptr);
 };
 
 #endif

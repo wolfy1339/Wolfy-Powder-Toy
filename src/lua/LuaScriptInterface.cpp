@@ -206,7 +206,7 @@ LuaScriptInterface::LuaScriptInterface(GameController * c, GameModel * m):
 		{"graphics_func",&luatpt_graphics_func},
 		{"get_clipboard", &platform_clipboardCopy},
 		{"set_clipboard", &platform_clipboardPaste},
-		{NULL,NULL}
+		{nullptr,nullptr}
 	};
 
 	luacon_mousedown = false;
@@ -457,7 +457,7 @@ void LuaScriptInterface::initInterfaceAPI()
 		{"closeWindow", interface_closeWindow},
 		{"addComponent", interface_addComponent},
 		{"removeComponent", interface_removeComponent},
-		{NULL, NULL}
+		{nullptr, nullptr}
 	};
 	luaL_register(l, "interface", interfaceAPIMethods);
 
@@ -476,8 +476,8 @@ void LuaScriptInterface::initInterfaceAPI()
 
 int LuaScriptInterface::interface_addComponent(lua_State * l)
 {
-	void * luaComponent = NULL;
-	ui::Component * component = NULL;
+	void * luaComponent = nullptr;
+	ui::Component * component = nullptr;
 	if ((luaComponent = Luna<LuaButton>::tryGet(l, 1)))
 		component = Luna<LuaButton>::get(luaComponent)->GetComponent();
 	else if ((luaComponent = Luna<LuaLabel>::tryGet(l, 1)))
@@ -499,8 +499,8 @@ int LuaScriptInterface::interface_addComponent(lua_State * l)
 
 int LuaScriptInterface::interface_removeComponent(lua_State * l)
 {
-	void * luaComponent = NULL;
-	ui::Component * component = NULL;
+	void * luaComponent = nullptr;
+	ui::Component * component = nullptr;
 	if ((luaComponent = Luna<LuaButton>::tryGet(l, 1)))
 		component = Luna<LuaButton>::get(luaComponent)->GetComponent();
 	else if ((luaComponent = Luna<LuaLabel>::tryGet(l, 1)))
@@ -749,7 +749,7 @@ void LuaScriptInterface::initSimulationAPI()
 		{"neighbors", simulation_neighbours},
 		{"framerender", simulation_framerender},
 		{"gspeed", simulation_gspeed},
-		{NULL, NULL}
+		{nullptr, nullptr}
 	};
 	luaL_register(l, "simulation", simulationAPIMethods);
 
@@ -967,7 +967,7 @@ int LuaScriptInterface::simulation_partProperty(lua_State * l)
 {
 	int argCount = lua_gettop(l);
 	int particleID = luaL_checkinteger(l, 1);
-	StructProperty * property = NULL;
+	StructProperty * property = nullptr;
 
 	if(particleID < 0 || particleID >= NPART || !luacon_sim->parts[particleID].type)
 	{
@@ -1351,7 +1351,7 @@ int LuaScriptInterface::simulation_createWalls(lua_State * l)
 	if (c < 0 || c >= UI_WALLCOUNT)
 		return luaL_error(l, "Unrecognised wall id '%d'", c);
 
-	int ret = luacon_sim->CreateWalls(x, y, rx, ry, c, NULL);
+	int ret = luacon_sim->CreateWalls(x, y, rx, ry, c, nullptr);
 	lua_pushinteger(l, ret);
 	return 1;
 }
@@ -1368,7 +1368,7 @@ int LuaScriptInterface::simulation_createWallLine(lua_State * l)
 	if (c < 0 || c >= UI_WALLCOUNT)
 		return luaL_error(l, "Unrecognised wall id '%d'", c);
 
-	luacon_sim->CreateWallLine(x1, y1, x2, y2, rx, ry, c, NULL);
+	luacon_sim->CreateWallLine(x1, y1, x2, y2, rx, ry, c, nullptr);
 	return 0;
 }
 
@@ -1663,7 +1663,7 @@ int LuaScriptInterface::simulation_saveStamp(lua_State * l)
 int LuaScriptInterface::simulation_loadStamp(lua_State * l)
 {
 	int i = -1, x, y;
-	SaveFile * tempfile = NULL;
+	SaveFile * tempfile = nullptr;
 	x = luaL_optint(l,2,0);
 	y = luaL_optint(l,3,0);
 	if (lua_isstring(l, 1)) //Load from 10 char name, or full filename
@@ -2124,7 +2124,7 @@ void LuaScriptInterface::initRendererAPI()
 		{"grid", renderer_grid},
 		{"debugHUD", renderer_debugHUD},
 		{"depth3d", renderer_depth3d},
-		{NULL, NULL}
+		{nullptr, nullptr}
 	};
 	luaL_register(l, "renderer", rendererAPIMethods);
 
@@ -2329,7 +2329,7 @@ void LuaScriptInterface::initElementsAPI()
 		{"property", elements_property},
 		{"free", elements_free},
 		{"loadDefault", elements_loadDefault},
-		{NULL, NULL}
+		{nullptr, nullptr}
 	};
 	luaL_register(l, "elements", elementsAPIMethods);
 
@@ -2572,7 +2572,7 @@ int LuaScriptInterface::elements_element(lua_State * l)
 		{
 			lua_el_func[id] = 0;
 			lua_el_mode[id] = 0;
-			luacon_sim->elements[id].Update = NULL;
+			luacon_sim->elements[id].Update = nullptr;
 		}
 		else
 			lua_pop(l, 1);
@@ -2585,7 +2585,7 @@ int LuaScriptInterface::elements_element(lua_State * l)
 		else if(lua_type(l, -1) == LUA_TBOOLEAN && !lua_toboolean(l, -1))
 		{
 			lua_gr_func[id] = 0;
-			luacon_sim->elements[id].Graphics = NULL;
+			luacon_sim->elements[id].Graphics = nullptr;
 		}
 		else
 			lua_pop(l, 1);
@@ -2741,7 +2741,7 @@ int LuaScriptInterface::elements_property(lua_State * l)
 			{
 				lua_el_func[id] = 0;
 				lua_el_mode[id] = 0;
-				luacon_sim->elements[id].Update = NULL;
+				luacon_sim->elements[id].Update = nullptr;
 			}
 		}
 		else if(propertyName == "Graphics")
@@ -2754,7 +2754,7 @@ int LuaScriptInterface::elements_property(lua_State * l)
 			else if(lua_type(l, 3) == LUA_TBOOLEAN && !lua_toboolean(l, -1))
 			{
 				lua_gr_func[id] = 0;
-				luacon_sim->elements[id].Graphics = NULL;
+				luacon_sim->elements[id].Graphics = nullptr;
 			}
 			luacon_ren->graphicscache[id].isready = 0;
 		}
@@ -2860,7 +2860,7 @@ void LuaScriptInterface::initGraphicsAPI()
 		{"fillCircle", graphics_fillCircle},
 		{"getColors", graphics_getColors},
 		{"getHexColor", graphics_getHexColor},
-		{NULL, NULL}
+		{nullptr, nullptr}
 	};
 	luaL_register(l, "graphics", graphicsAPIMethods);
 
@@ -3069,7 +3069,7 @@ void LuaScriptInterface::initFileSystemAPI()
 		{"removeFile", fileSystem_removeFile},
 		{"move", fileSystem_move},
 		{"copy", fileSystem_copy},
-		{NULL, NULL}
+		{nullptr, nullptr}
 	};
 	luaL_register(l, "fileSystem", fileSystemAPIMethods);
 
@@ -3089,7 +3089,7 @@ int LuaScriptInterface::fileSystem_list(lua_State * l)
 	struct dirent * entry;
 
 	directory = opendir(directoryName);
-	if (directory != NULL)
+	if (directory != nullptr)
 	{
 		while ((entry = readdir(directory)))
 		{
@@ -3289,7 +3289,7 @@ void LuaScriptInterface::initPlatformAPI()
 		{"openLink", platform_openLink},
 		{"clipboardCopy", platform_clipboardCopy},
 		{"clipboardPaste", platform_clipboardPaste},
-		{NULL, NULL}
+		{nullptr, nullptr}
 	};
 	luaL_register(l, "platform", platformAPIMethods);
 

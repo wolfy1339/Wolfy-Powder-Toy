@@ -1,7 +1,7 @@
 #include "RenderModel.h"
 
 RenderModel::RenderModel():
-	renderer(NULL)
+	renderer(nullptr)
 {
 
 }

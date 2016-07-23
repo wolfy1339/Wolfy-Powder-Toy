@@ -128,15 +128,15 @@ public:
 
 GameController::GameController():
 	firstTick(true),
-	foundSign(NULL),
-	activePreview(NULL),
-	search(NULL),
-	renderOptions(NULL),
-	loginWindow(NULL),
-	console(NULL),
-	tagsWindow(NULL),
-	localBrowser(NULL),
-	options(NULL),
+	foundSign(nullptr),
+	activePreview(nullptr),
+	search(nullptr),
+	renderOptions(nullptr),
+	loginWindow(nullptr),
+	console(nullptr),
+	tagsWindow(nullptr),
+	localBrowser(nullptr),
+	options(nullptr),
 	debugFlags(0),
 	HasDone(false)
 {
@@ -314,7 +314,7 @@ sign * GameController::GetSignAt(int x, int y)
 		if (x>=signx && x<=signx+signw && y>=signy && y<=signy+signh)
 			return &(*iter);
 	}
-	return NULL;
+	return nullptr;
 }
 
 void GameController::PlaceSave(ui::Point position)
@@ -666,7 +666,7 @@ bool GameController::MouseUp(int x, int y, unsigned button, char type)
 			}
 		}
 	}
-	foundSign = NULL;
+	foundSign = nullptr;
 	return ret;
 }
 
@@ -964,31 +964,31 @@ void GameController::Update()
 	if(renderOptions && renderOptions->HasExited)
 	{
 		delete renderOptions;
-		renderOptions = NULL;
+		renderOptions = nullptr;
 	}
 
 	if(search && search->HasExited)
 	{
 		delete search;
-		search = NULL;
+		search = nullptr;
 	}
 
 	if(activePreview && activePreview->HasExited)
 	{
 		delete activePreview;
-		activePreview = NULL;
+		activePreview = nullptr;
 	}
 
 	if(loginWindow && loginWindow->HasExited)
 	{
 		delete loginWindow;
-		loginWindow = NULL;
+		loginWindow = nullptr;
 	}
 
 	if(localBrowser && localBrowser->HasDone)
 	{
 		delete localBrowser;
-		localBrowser = NULL;
+		localBrowser = nullptr;
 	}
 }
 
@@ -1340,7 +1340,7 @@ void GameController::OpenOptions()
 void GameController::ShowConsole()
 {
 	if(!console)
-		console = new ConsoleController(NULL, commandInterface);
+		console = new ConsoleController(nullptr, commandInterface);
 	if (console->GetView() != ui::Engine::Ref().GetWindow())
 		ui::Engine::Ref().ShowWindow(console->GetView());
 }
@@ -1355,7 +1355,7 @@ void GameController::HideConsole()
 
 void GameController::OpenRenderOptions()
 {
-	renderOptions = new RenderController(gameModel->GetRenderer(), NULL);
+	renderOptions = new RenderController(gameModel->GetRenderer(), nullptr);
 	ui::Engine::Ref().ShowWindow(renderOptions->GetView());
 }
 
@@ -1488,7 +1488,7 @@ void GameController::ChangeBrush()
 void GameController::ClearSim()
 {
 	HistorySnapshot();
-	gameModel->SetSave(NULL);
+	gameModel->SetSave(nullptr);
 	gameModel->ClearSimulation();
 }
 

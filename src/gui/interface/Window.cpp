@@ -11,10 +11,10 @@ Window::Window(Point _position, Point _size):
 	Position(_position),
 	Size(_size),
 	AllowExclusiveDrawing(true),
-	okayButton(NULL),
-	cancelButton(NULL),
-	focusedComponent_(NULL),
-	hoverComponent(NULL),
+	okayButton(nullptr),
+	cancelButton(nullptr),
+	focusedComponent_(nullptr),
+	hoverComponent(nullptr),
 #ifdef DEBUG
 	debugMode(false),
 #endif
@@ -36,7 +36,7 @@ Window::~Window()
 
 void Window::AddComponent(Component* c)
 {
-	if (c->GetParentWindow() == NULL)
+	if (c->GetParentWindow() == nullptr)
 	{
 		c->SetParentWindow(this);
 		Components.push_back(c);
@@ -72,9 +72,9 @@ void Window::RemoveComponent(Component* c)
 			//Make sure any events don't continue
 			halt = true;
 			if (Components[i] == focusedComponent_)
-				focusedComponent_ = NULL;
+				focusedComponent_ = nullptr;
 			if (Components[i] == hoverComponent)
-				hoverComponent = NULL;
+				hoverComponent = nullptr;
 
 			Components.erase(Components.begin() + i);
 
@@ -101,9 +101,9 @@ void Window::RemoveComponent(unsigned idx)
 	halt = true;
 	// free component and remove it.
 	if (Components[idx] == focusedComponent_)
-		focusedComponent_ = NULL;
+		focusedComponent_ = nullptr;
 	if (Components[idx] == hoverComponent)
-		hoverComponent = NULL;
+		hoverComponent = nullptr;
 	delete Components[idx];
 	Components.erase(Components.begin() + idx);
 }
@@ -174,7 +174,7 @@ void Window::DoDraw()
 #endif
 		}
 	// the component the mouse is hovering over and the focused component are always drawn last
-	if (hoverComponent && hoverComponent->Visible && hoverComponent->GetParent() == NULL)
+	if (hoverComponent && hoverComponent->Visible && hoverComponent->GetParent() == nullptr)
 	{
 		Point scrpos(hoverComponent->Position.X + Position.X, hoverComponent->Position.Y + Position.Y);
 		if ((scrpos.X + hoverComponent->Size.X >= 0 &&
@@ -186,7 +186,7 @@ void Window::DoDraw()
 			hoverComponent->Draw(scrpos);
 		}
 	}
-	if (focusedComponent_ && focusedComponent_ != hoverComponent && focusedComponent_->Visible && focusedComponent_->GetParent() == NULL)
+	if (focusedComponent_ && focusedComponent_ != hoverComponent && focusedComponent_->Visible && focusedComponent_->GetParent() == nullptr)
 	{
 		Point scrpos(focusedComponent_->Position.X + Position.X, focusedComponent_->Position.Y + Position.Y);
 		if ((scrpos.X + focusedComponent_->Size.X >= 0 &&
@@ -269,7 +269,7 @@ void Window::DoKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool a
 		debugMode = !debugMode;
 	if (debugMode)
 	{
-		if (focusedComponent_!=NULL)
+		if (focusedComponent_!=nullptr)
 		{
 			if (shift)
 			{
@@ -350,7 +350,7 @@ void Window::DoKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool a
 	}
 #endif
 	//on key press
-	if (focusedComponent_ != NULL)
+	if (focusedComponent_ != nullptr)
 	{
 		if (focusedComponent_->Enabled && focusedComponent_->Visible)
 			focusedComponent_->OnKeyPress(key, character, shift, ctrl, alt);
@@ -376,7 +376,7 @@ void Window::DoKeyRelease(int key, Uint16 character, bool shift, bool ctrl, bool
 		return;
 #endif
 	//on key unpress
-	if (focusedComponent_ != NULL)
+	if (focusedComponent_ != nullptr)
 	{
 		if (focusedComponent_->Enabled && focusedComponent_->Visible)
 			focusedComponent_->OnKeyRelease(key, character, shift, ctrl, alt);
@@ -412,7 +412,7 @@ void Window::DoMouseDown(int x_, int y_, unsigned button)
 	}
 
 	if (!clickState)
-		FocusComponent(NULL);
+		FocusComponent(nullptr);
 	
 #ifdef DEBUG
 	if (debugMode)

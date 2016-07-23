@@ -45,8 +45,8 @@ Element_E181::Element_E181()
 	HighTemperature = ITH;
 	HighTemperatureTransition = NT;
 
-	Update = NULL;
-	Graphics = NULL;
+	Update = nullptr;
+	Graphics = nullptr;
 }
 
 Element_E181::~Element_E181() {}

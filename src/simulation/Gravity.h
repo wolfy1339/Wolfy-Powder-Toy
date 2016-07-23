@@ -20,17 +20,17 @@ typedef struct mask_el mask_el;
 
 
 /*
- * 	float *gravmap = NULL;//Maps to be used by the main thread
-	float *gravp = NULL;
-	float *gravy = NULL;
-	float *gravx = NULL;
-	unsigned *gravmask = NULL;
+ * 	float *gravmap = nullptr;//Maps to be used by the main thread
+	float *gravp = nullptr;
+	float *gravy = nullptr;
+	float *gravx = nullptr;
+	unsigned *gravmask = nullptr;
 
-	float *th_ogravmap = NULL;// Maps to be processed by the gravity thread
-	float *th_gravmap = NULL;
-	float *th_gravx = NULL;
-	float *th_gravy = NULL;
-	float *th_gravp = NULL;
+	float *th_ogravmap = nullptr;// Maps to be processed by the gravity thread
+	float *th_gravmap = nullptr;
+	float *th_gravx = nullptr;
+	float *th_gravy = nullptr;
+	float *th_gravp = nullptr;
 
 	int th_gravchanged = 0;
 

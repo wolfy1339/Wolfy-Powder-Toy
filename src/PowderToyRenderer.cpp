@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
 	engine = &ui::Engine::Ref();
 	engine->Begin(WINDOWW, WINDOWH);
 
-	GameSave * gameSave = NULL;
+	GameSave * gameSave = nullptr;
 	try
 	{
 		gameSave = new GameSave(inputFile);

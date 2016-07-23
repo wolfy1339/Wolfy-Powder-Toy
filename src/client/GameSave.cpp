@@ -29,13 +29,13 @@ expanded(save.expanded),
 hasOriginalData(save.hasOriginalData),
 originalData(save.originalData)
 {
-	blockMap = NULL;
-	blockMapPtr = NULL;
-	fanVelX = NULL;
-	fanVelXPtr = NULL;
-	fanVelY = NULL;
-	fanVelYPtr = NULL;
-	particles = NULL;
+	blockMap = nullptr;
+	blockMapPtr = nullptr;
+	fanVelX = nullptr;
+	fanVelXPtr = nullptr;
+	fanVelY = nullptr;
+	fanVelYPtr = nullptr;
+	particles = nullptr;
 	if(save.expanded)
 	{
 		setSize(save.blockWidth, save.blockHeight);
@@ -56,13 +56,13 @@ originalData(save.originalData)
 
 GameSave::GameSave(int width, int height)
 {
-	blockMap = NULL;
-	blockMapPtr = NULL;
-	fanVelX = NULL;
-	fanVelXPtr = NULL;
-	fanVelY = NULL;
-	fanVelYPtr = NULL;
-	particles = NULL;
+	blockMap = nullptr;
+	blockMapPtr = nullptr;
+	fanVelX = nullptr;
+	fanVelXPtr = nullptr;
+	fanVelY = nullptr;
+	fanVelYPtr = nullptr;
+	particles = nullptr;
 
 	fromNewerVersion = false;
 	hasOriginalData = false;
@@ -75,13 +75,13 @@ GameSave::GameSave(std::vector<char> data)
 	blockWidth = 0;
 	blockHeight = 0;
 
-	blockMap = NULL;
-	blockMapPtr = NULL;
-	fanVelX = NULL;
-	fanVelXPtr = NULL;
-	fanVelY = NULL;
-	fanVelYPtr = NULL;
-	particles = NULL;
+	blockMap = nullptr;
+	blockMapPtr = nullptr;
+	fanVelX = nullptr;
+	fanVelXPtr = nullptr;
+	fanVelY = nullptr;
+	fanVelYPtr = nullptr;
+	particles = nullptr;
 
 	fromNewerVersion = false;
 	expanded = false;
@@ -108,13 +108,13 @@ GameSave::GameSave(std::vector<unsigned char> data)
 	blockWidth = 0;
 	blockHeight = 0;
 
-	blockMap = NULL;
-	blockMapPtr = NULL;
-	fanVelX = NULL;
-	fanVelXPtr = NULL;
-	fanVelY = NULL;
-	fanVelYPtr = NULL;
-	particles = NULL;
+	blockMap = nullptr;
+	blockMapPtr = nullptr;
+	fanVelX = nullptr;
+	fanVelXPtr = nullptr;
+	fanVelY = nullptr;
+	fanVelYPtr = nullptr;
+	particles = nullptr;
 
 	fromNewerVersion = false;
 	expanded = false;
@@ -141,13 +141,13 @@ GameSave::GameSave(char * data, int dataSize)
 	blockWidth = 0;
 	blockHeight = 0;
 
-	blockMap = NULL;
-	blockMapPtr = NULL;
-	fanVelX = NULL;
-	fanVelXPtr = NULL;
-	fanVelY = NULL;
-	fanVelYPtr = NULL;
-	particles = NULL;
+	blockMap = nullptr;
+	blockMapPtr = nullptr;
+	fanVelX = nullptr;
+	fanVelXPtr = nullptr;
+	fanVelY = nullptr;
+	fanVelYPtr = nullptr;
+	particles = nullptr;
 
 	fromNewerVersion = false;
 	expanded = false;
@@ -199,37 +199,37 @@ void GameSave::Collapse()
 		if(particles)
 		{
 			delete[] particles;
-			particles = NULL;
+			particles = nullptr;
 		}
 		if(blockMap)
 		{
 			delete[] blockMap;
-			blockMap = NULL;
+			blockMap = nullptr;
 		}
 		if(blockMapPtr)
 		{
 			delete[] blockMapPtr;
-			blockMapPtr = NULL;
+			blockMapPtr = nullptr;
 		}
 		if(fanVelX)
 		{
 			delete[] fanVelX;
-			fanVelX = NULL;
+			fanVelX = nullptr;
 		}
 		if(fanVelXPtr)
 		{
 			delete[] fanVelXPtr;
-			fanVelXPtr = NULL;
+			fanVelXPtr = nullptr;
 		}
 		if(fanVelY)
 		{
 			delete[] fanVelY;
-			fanVelY = NULL;
+			fanVelY = nullptr;
 		}
 		if(fanVelYPtr)
 		{
 			delete[] fanVelYPtr;
-			fanVelYPtr = NULL;
+			fanVelYPtr = nullptr;
 		}
 		signs.clear();
 	}
@@ -446,10 +446,10 @@ void bson_error_handler(const char *err)
 
 void GameSave::readOPS(char * data, int dataLength)
 {
-	unsigned char * inputData = (unsigned char*)data, *bsonData = NULL, *partsData = NULL, *partsPosData = NULL, *fanData = NULL, *wallData = NULL, *soapLinkData = NULL;
+	unsigned char * inputData = (unsigned char*)data, *bsonData = nullptr, *partsData = nullptr, *partsPosData = nullptr, *fanData = nullptr, *wallData = nullptr, *soapLinkData = nullptr;
 	unsigned int inputDataLen = dataLength, bsonDataLen = 0, partsDataLen, partsPosDataLen, fanDataLen, wallDataLen, soapLinkDataLen;
-	unsigned partsCount = 0, *partsSimIndex = NULL;
-	int *freeIndices = NULL;
+	unsigned partsCount = 0, *partsSimIndex = nullptr;
+	int *freeIndices = nullptr;
 	unsigned int blockX, blockY, blockW, blockH, fullX, fullY, fullW, fullH;
 	int savedVersion = inputData[4];
 	bson b;
@@ -1166,8 +1166,8 @@ fin:
 
 void GameSave::readPSv(char * data, int dataLength)
 {
-	unsigned char * d = NULL, * c = (unsigned char *)data;
-	int q,i,j,k,x,y,p=0,*m=NULL, ver, pty, ty, legacy_beta=0;
+	unsigned char * d = nullptr, * c = (unsigned char *)data;
+	int q,i,j,k,x,y,p=0,*m=nullptr, ver, pty, ty, legacy_beta=0;
 	int bx0=0, by0=0, bw, bh, w, h, y0 = 0, x0 = 0;
 	int new_format = 0, ttv = 0;
 	int *fp = (int *)malloc(NPART*sizeof(int));
@@ -1853,9 +1853,9 @@ void GameSave::readPSv(char * data, int dataLength)
 char * GameSave::serialiseOPS(unsigned int & dataLength)
 {
 	//Particle *particles = sim->parts;
-	unsigned char *partsData = NULL, *partsPosData = NULL, *fanData = NULL, *wallData = NULL, *finalData = NULL, *outputData = NULL, *soapLinkData = NULL;
-	unsigned *partsPosLink = NULL, *partsPosFirstMap = NULL, *partsPosCount = NULL, *partsPosLastMap = NULL;
-	unsigned partsCount = 0, *partsSaveIndex = NULL;
+	unsigned char *partsData = nullptr, *partsPosData = nullptr, *fanData = nullptr, *wallData = nullptr, *finalData = nullptr, *outputData = nullptr, *soapLinkData = nullptr;
+	unsigned *partsPosLink = nullptr, *partsPosFirstMap = nullptr, *partsPosCount = nullptr, *partsPosLastMap = nullptr;
+	unsigned partsCount = 0, *partsSaveIndex = nullptr;
 	unsigned *elementCount = new unsigned[PT_NUM];
 	unsigned int partsDataLen, partsPosDataLen, fanDataLen, wallDataLen, finalDataLen, outputDataLen, soapLinkDataLen;
 	int blockX, blockY, blockW, blockH, fullX, fullY, fullW, fullH;
@@ -1911,12 +1911,12 @@ char * GameSave::serialiseOPS(unsigned int & dataLength)
 	if(!fanDataLen)
 	{
 		free(fanData);
-		fanData = NULL;
+		fanData = nullptr;
 	}
 	if(!wallDataFound)
 	{
 		free(wallData);
-		wallData = NULL;
+		wallData = nullptr;
 	}
 
 	//Index positions of all particles, using linked lists
@@ -2186,12 +2186,12 @@ char * GameSave::serialiseOPS(unsigned int & dataLength)
 	if(!soapLinkDataLen)
 	{
 		free(soapLinkData);
-		soapLinkData = NULL;
+		soapLinkData = nullptr;
 	}
 	if(!partsDataLen)
 	{
 		free(partsData);
-		partsData = NULL;
+		partsData = nullptr;
 	}
 
 	bson_init(&b);
@@ -2295,7 +2295,7 @@ char * GameSave::serialiseOPS(unsigned int & dataLength)
 		puts("Save Error\n");
 		delete [] outputData;
 		dataLength = 0;
-		outputData = NULL;
+		outputData = nullptr;
 		goto fin;
 	}
 
@@ -2326,37 +2326,37 @@ void GameSave::dealloc()
 	if(particles)
 	{
 		delete[] particles;
-		particles = NULL;
+		particles = nullptr;
 	}
 	if(blockMap)
 	{
 		delete[] blockMap;
-		blockMap = NULL;
+		blockMap = nullptr;
 	}
 	if(blockMapPtr)
 	{
 		delete[] blockMapPtr;
-		blockMapPtr = NULL;
+		blockMapPtr = nullptr;
 	}
 	if(fanVelX)
 	{
 		delete[] fanVelX;
-		fanVelX = NULL;
+		fanVelX = nullptr;
 	}
 	if(fanVelXPtr)
 	{
 		delete[] fanVelXPtr;
-		fanVelXPtr = NULL;
+		fanVelXPtr = nullptr;
 	}
 	if(fanVelY)
 	{
 		delete[] fanVelY;
-		fanVelY = NULL;
+		fanVelY = nullptr;
 	}
 	if(fanVelYPtr)
 	{
 		delete[] fanVelYPtr;
-		fanVelYPtr = NULL;
+		fanVelYPtr = nullptr;
 	}
 }
 

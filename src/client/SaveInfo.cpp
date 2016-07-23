@@ -16,7 +16,7 @@ SaveInfo::SaveInfo(SaveInfo & save):
 	name(save.name),
 	Description(save.Description),
 	Published(save.Published),
-	gameSave(NULL)
+	gameSave(nullptr)
 {
 	std::list<std::string> tagsSorted = save.tags;
 	tagsSorted.sort();
@@ -40,7 +40,7 @@ SaveInfo::SaveInfo(int _id, int _date, int _votesUp, int _votesDown, std::string
 	Description(""),
 	Published(false),
 	tags(),
-	gameSave(NULL)
+	gameSave(nullptr)
 {
 
 }
@@ -60,7 +60,7 @@ SaveInfo::SaveInfo(int _id, int date_, int _votesUp, int _votesDown, int _vote, 
 	Description(description_),
 	Published(published_),
 	tags(),
-	gameSave(NULL)
+	gameSave(nullptr)
 {
 	std::list<std::string> tagsSorted = tags_;
 	tagsSorted.sort();

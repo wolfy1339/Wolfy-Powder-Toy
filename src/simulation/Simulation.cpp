@@ -716,7 +716,7 @@ int Simulation::flood_water(int x, int y, int i, int originaly, int check)
 		else
 			parts[pmap[y][x]>>8].flags |= FLAG_WATEREQUAL;
 		//check above, maybe around other sides too?
-		if ( ((y-1) > originaly) && !pmap[y-1][x] && eval_move(parts[i].type, x, y-1, NULL))
+		if ( ((y-1) > originaly) && !pmap[y-1][x] && eval_move(parts[i].type, x, y-1, nullptr))
 		{
 			int oldx = (int)(parts[i].x + 0.5f);
 			int oldy = (int)(parts[i].y + 0.5f);
@@ -1074,7 +1074,7 @@ int Simulation::Tool(int x, int y, int tool, float strength)
 {
 	if(tools[tool])
 	{
-		Particle * cpart = NULL;
+		Particle * cpart = nullptr;
 		int r;
 		if ((r = pmap[y][x]))
 			cpart = &(parts[r>>8]);
@@ -1301,7 +1301,7 @@ void Simulation::CreateWallBox(int x1, int y1, int x2, int y2, int wall)
 	}
 	for (j=y1; j<=y2; j++)
 		for (i=x1; i<=x2; i++)
-			CreateWalls(i, j, 0, 0, wall, NULL);
+			CreateWalls(i, j, 0, 0, wall, nullptr);
 }
 
 int Simulation::FloodWalls(int x, int y, int wall, int bm)
@@ -1344,7 +1344,7 @@ int Simulation::FloodWalls(int x, int y, int wall, int bm)
 	// fill span
 	for (x=x1; x<=x2; x++)
 	{
-		if (!CreateWalls(x, y, 0, 0, wall, NULL))
+		if (!CreateWalls(x, y, 0, 0, wall, nullptr))
 			return 0;
 	}
 	// fill children
@@ -2508,7 +2508,7 @@ int Simulation::do_move(int i, int x, int y, float nxf, float nyf)
 		{
 			//make sure there isn't something blocking it on the other side
 			//only needed if this if statement is moved after the try_move (like my mod)
-			//if (!eval_move(t, nx, ny, NULL) || (t == PT_PHOT && pmap[ny][nx]))
+			//if (!eval_move(t, nx, ny, nullptr) || (t == PT_PHOT && pmap[ny][nx]))
 			//	return -1;
 		}*/
 	}
@@ -2607,7 +2607,7 @@ int Simulation::is_blocking(int t, int x, int y)
 		return 0;
 	}
 
-	return !eval_move(t, x, y, NULL);
+	return !eval_move(t, x, y, nullptr);
 }
 
 int Simulation::is_boundary(int pt, int x, int y)
@@ -2914,7 +2914,7 @@ int Simulation::create_part(int p, int x, int y, int t, int v)
 		// If there isn't a particle but there is a wall, check whether the new particle is allowed to be in it
 		//   (not "!=2" for wall check because eval_move returns 1 for moving into empty space)
 		// If there's no particle and no wall, assume creation is allowed
-		if (pmap[y][x] ? (eval_move(t, x, y, NULL)!=2) : (bmap[y/CELL][x/CELL] && eval_move(t, x, y, NULL)==0))
+		if (pmap[y][x] ? (eval_move(t, x, y, nullptr)!=2) : (bmap[y/CELL][x/CELL] && eval_move(t, x, y, nullptr)==0))
 		{
 			if ((pmap[y][x]&0xFF)!=PT_SPAWN&&(pmap[y][x]&0xFF)!=PT_SPAWN2)
 			{
@@ -4203,7 +4203,7 @@ killed:
 					}
 					//block if particle can't move (0), or some special cases where it returns 1 (can_move = 3 but returns 1 meaning particle will be eaten)
 					//also photons are still blocked (slowed down) by any particle (even ones it can move through), and absorb wall also blocks particles
-					int eval = eval_move(t, fin_x, fin_y, NULL);
+					int eval = eval_move(t, fin_x, fin_y, nullptr);
 					if (!eval || (can_move[t][pmap[fin_y][fin_x]&0xFF] == 3 && eval == 1) || (t == PT_PHOT && pmap[fin_y][fin_x]) || bmap[fin_y/CELL][fin_x/CELL]==WL_DESTROYALL || closedEholeStart!=(bmap[fin_y/CELL][fin_x/CELL] == WL_EHOLE && !emap[fin_y/CELL][fin_x/CELL]))
 					{
 						// found an obstacle
@@ -4244,10 +4244,10 @@ killed:
 						ny = (int)((float)parts[i].y+0.5f);
 					}
 
-					if (!x_ok || !y_ok) //when moving from left to right stickmen might be able to fall through solid things, fix with "eval_move(t, nx+diffx, ny+diffy, NULL)" but then they die instead
+					if (!x_ok || !y_ok) //when moving from left to right stickmen might be able to fall through solid things, fix with "eval_move(t, nx+diffx, ny+diffy, nullptr)" but then they die instead
 					{
 						//adjust stickmen legs
-						playerst* stickman = NULL;
+						playerst* stickman = nullptr;
 						int t = parts[i].type;
 						if (t == PT_STKM)
 							stickman = &player;
@@ -4292,7 +4292,7 @@ killed:
 						continue;
 					}
 
-					if (eval_move(PT_PHOT, fin_x, fin_y, NULL))
+					if (eval_move(PT_PHOT, fin_x, fin_y, nullptr))
 					{
 						int rt = pmap[fin_y][fin_x] & 0xFF;
 						int lt = pmap[y][x] & 0xFF;
