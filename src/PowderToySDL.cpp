@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include <ctime>
+#include <climits>
 #ifdef WIN
 #define _WIN32_WINNT 0x0501	//Necessary for some macros and functions, tells windows.h to include functions only available in Windows XP or later
 #include <direct.h>
