@@ -1,0 +1,22 @@
+sudo: false
+dist: trusty
+language: cpp
+matrix:
+  include:
+    - compiler: gcc
+    - compiler: clang
+apt:
+  addons:
+    packages:
+      - build-essential
+      - libsdl1.2-dev
+      - libbz2-dev
+      - zlib1g-dev
+      - liblua5.1-0-dev
+      - liblua5.2-dev
+      - libluajit-5.1-dev
+      - scons
+      - libfftw3-dev
+      - python
+script:
+  - scons --lin --sse2 --64bit -j3
